@@ -1,6 +1,6 @@
 from jinja2 import Environment
-from pathlib import Path
 from textwrap import dedent
+from pathlib import Path
 
 
 class SubCommandMixin:
@@ -10,6 +10,12 @@ class SubCommandMixin:
     def render(cls, **kwargs):
         return Environment().from_string(dedent(cls.template)).render(**kwargs)
 
+    @staticmethod
+    def set_arguments(p):
+        pass
+
+
+class CpptrajMixin(SubCommandMixin):
     @staticmethod
     def set_arguments(p):
         p.add_argument("-a", "--anchor", default="@CA,C,O,N")
