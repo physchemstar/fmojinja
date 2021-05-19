@@ -11,11 +11,14 @@ trajin {{ path }} lastframe {% endfor %}
 autoimage anchor {{ anchor }} origin
 align {{ align_mask }} {{ "move {}".format(mask) if mask else "" }} {{ "ref {}".format(reference) if reference else "first" }}
 {% for path in trajin %}
-reference {{ path }} lastframe
+{% if mask != None %}reference {{ path }} lastframe
 strip !({{ mask }}) parmout {{ prefix ~ path.stem  }}.parm 
 outtraj {{ prefix ~ path.stem  }}.pdb trajout onlyframes {{ loop.index }} nobox pdbter topresnum 
 trajout {{ prefix ~ path.stem  }}.rst onlyframes {{ loop.index }}
-unstrip {% endfor %}
+unstrip
+{%- else %}outtraj {{ prefix ~ path.stem  }}.pdb trajout onlyframes {{ loop.index }} nobox pdbter topresnum 
+trajout {{ prefix ~ path.stem  }}.rst onlyframes {{ loop.index }}{% endif %}{% endfor %}
+
 run
 """
 
