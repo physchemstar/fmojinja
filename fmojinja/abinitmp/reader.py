@@ -17,7 +17,8 @@ class CpfFilter:
         self.n = n
         logger.debug(self.m)
         logger.debug(self.n)
-        logger.info(f"CpfFilter is generated. {len(self.m) if self.m is not None else 'None'} x {len(self.n) if self.m is not None else 'None'} ")
+        logger.info(
+            f"CpfFilter is generated. {len(self.m) if self.m is not None else 'None'} x {len(self.n) if self.m is not None else 'None'} ")
 
     def complete_by_all_frag_id(self, n_frag):
         if self.m is None:
@@ -80,7 +81,8 @@ class CpfFilter:
         return result
 
 
-def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, nproc=None, mem_limit=10 ** 8, chunk_ratio=0.05, *args, **kwargs):
+def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, nproc=None, mem_limit=10 ** 8,
+                   chunk_ratio=0.05, *args, **kwargs):
     """
     pandas patch for parse cpf file.
     :param path: cpf file path
@@ -90,6 +92,7 @@ def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, npro
     :param mem_limit: memory limit (byte)
     :return: DataFrame/Array (depends on what)
     """
+
     class OptSingleton:
         _i = 0
         _j = 0
@@ -109,7 +112,7 @@ def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, npro
             "j": "int",
             "bda": "int",
             "baa": "int",
-            "bond_type": "float", # for NaN
+            "bond_type": "float",  # for NaN
             "dist": "float",
         }
 
@@ -133,6 +136,7 @@ def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, npro
         def proceed_position(cls, n):
             cls._i += n
             cls._j += 0
+
     hartree2kcalmol = 627.51
     what_choice = ["atom_info", "frag_name", "dimer_energy"]
     if what not in what_choice:
@@ -143,9 +147,9 @@ def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, npro
     opt = OptSingleton.create(nrows=1, widths=[100])
     title = pd.read_fwf(path, **opt)
     title = title.iloc[0, 0]
-    assert("CPF" in title)
-    assert("Open1.0" in title)
-    assert("rev23" in title)
+    assert ("CPF" in title)
+    assert ("Open1.0" in title)
+    assert ("rev23" in title)
     opt = OptSingleton.create(nrows=1, widths=[100])
     n_atom, n_frag = [int(i) for i in pd.read_fwf(path, **opt).iloc[0, 0].split()]
     n_dimer = int(n_frag * (n_frag - 1) / 2)
@@ -279,9 +283,8 @@ def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, npro
     reader = pd.read_fwf(path, chunksize=chunksize, **opt)
     if parallel:
         with Client():
-#with Client(n_workers=nproc):
-       	    data = [dask.delayed(cpf_filter.filter)(d) for d in reader]
-       	    dimer_energy = dask.delayed(pd.concat)(data, ignore_index=True).compute()
+            data = [dask.delayed(cpf_filter.filter)(d) for d in reader]
+            dimer_energy = dask.delayed(pd.concat)(data, ignore_index=True).compute()
     else:
         dimer_energy = pd.concat((cpf_filter.filter(d) for d in reader), ignore_index=True)
     energy_columns = dimer_energy.columns.difference(["i", "j", "m", "n"])
@@ -298,6 +301,7 @@ if __name__ == '__main__':
     from io import StringIO
     import logging
     import time
+
     start_time = time.time()
 
     p = ArgumentParser("ABINIT-MP cpf file reader (rev. 23 only).")
