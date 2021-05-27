@@ -7,5 +7,5 @@ setup(
     license="MIT",
     packages=find_packages(),
     package_data={},
-    install_requires=["jinja2"],
+    install_requires=["jinja2", "pandas", "numpy", "dask"],
 )
