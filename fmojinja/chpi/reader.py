@@ -53,8 +53,9 @@ if __name__ == '__main__':
         output = StringIO()
         df = pandas_read_hpi(path)
         if len(a.hpi) > 1:
-            df.assign(path=path)
+            df = df.assign(path=path)
         df.to_csv(output, index=False, header=is_first)
         output.seek(0)
         print(output.read())
+        is_first = False
 
