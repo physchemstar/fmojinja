@@ -185,6 +185,7 @@ def read_cpf_patch(path, cpf_filter=None, what="frag_name", parallel=False, npro
     if what == "frag_name":
         frag_name = atom_info \
             .assign(rep_type=lambda d: d.atom_type.isin(["CA"])) \
+            .assign(rep_type=lambda d: d.atom_type.isin(["C1'"])) \
             .assign(frag_name=lambda d: [str(i) + str(j) for i, j in zip(d.res_name, d.res_seq)]) \
             .assign(frag_name=lambda d: d.frag_name.astype("string"))
         frag_name = frag_name.sort_values(by=["rep_type"], ascending=False)
