@@ -1,8 +1,8 @@
-from ..mixin import SubCommandMixin
+from ..mixin import JinjaMixin
 from ..__version__ import get_version
 
 
-class OptH(SubCommandMixin):
+class OptH(JinjaMixin):
     """
     e.g. python -m fmojinja.sander opth > $*.in; sander -O -i $*.in -o $*.mdout -r $*.rst_opt -p $*.parm -c $< -ref $<
     """

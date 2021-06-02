@@ -3,14 +3,13 @@ from textwrap import dedent
 from pathlib import Path
 import sys
 from argparse import ArgumentParser
+import pandas as pd
 
 
 class SubCommandMixin:
-    template = ""
-
     @classmethod
-    def render(cls, **kwargs):
-        return Environment().from_string(dedent(cls.template)).render(**kwargs)
+    def main_proc(cls, **kwargs):
+        pass
 
     @staticmethod
     def set_arguments(p):
@@ -25,7 +24,7 @@ class SubCommands:
         for command_name, command_class in subcommands.items():
             p_sub = p_subs.add_parser(command_name, help=repr(command_class))
             p_sub = command_class.set_arguments(p_sub)
-            p_sub.set_defaults(render=command_class.render)
+            p_sub.set_defaults(main_proc=command_class.main_proc)
 
         a = p.parse_args()
 
@@ -33,10 +32,40 @@ class SubCommands:
             p.print_help()
             sys.exit(0)
 
-        print(a.render(**vars(a)))
+        a.main_proc(**vars(a))
 
 
-class CpptrajMixin(SubCommandMixin):
+class JinjaMixin(SubCommandMixin):
+    template = ""
+
+    @classmethod
+    def main_proc(cls, **kwargs):
+        print(Environment().from_string(dedent(cls.template)).render(**kwargs))
+
+
+class ReaderMixin(SubCommandMixin):
+
+    @staticmethod
+    def pandas_read(**kwargs):
+        return pd.DataFrame(None)
+
+    @classmethod
+    def main_proc(cls, files, **kwargs):
+        from io import StringIO
+
+        is_first = True
+        for path in files:
+            output = StringIO()
+            df = cls.pandas_read(path=path, **kwargs)
+            if len(files) > 1:
+                df = df.assign(path=path)
+            df.to_csv(output, index=False, header=is_first)
+            output.seek(0)
+            print(output.read())
+            is_first = False
+
+
+class CpptrajMixin(JinjaMixin):
     @staticmethod
     def set_arguments(p):
         p.add_argument("-a", "--anchor", default="@CA,C,O,N")
