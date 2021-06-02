@@ -8,14 +8,18 @@ class Rmsd(CpptrajMixin):
 parm {{ parm }}
 {%- for path in trajin %}
 trajin {{ path }} 1 last {{ offset }}{% endfor %}
+{{ "reference {}".format(reference) if reference else "" }}
 autoimage anchor {{ anchor }} origin
 align {{ align_mask }} {{ "move {}".format(mask) if mask else "" }} {{ "ref {}".format(reference) if reference else "first" }}
-rmsd {{ mask if mask else "" }} out {{ output }}
+rmsd rmsd_align{{ align_mask }} {{ align_mask }} out {{ output }} nofit {{ "reference" if reference else "first" }}
+{% if mask_list != None %}{% for m in mask_list %}rmsd rmsd_{{m}} {{ m }} out {{ output }} nofit {{ "reference" if reference else "first" }}
+{% endfor %}{% else %}rmsd {{ mask if mask else "" }} out {{ output }} nofit {{ "reference" if reference else "first" }}{% endif %}
 run
 """
 
     @classmethod
     def set_arguments(cls, p):
         p.add_argument("--offset", default=100)
+        p.add_argument("-ml", "--mask-list", nargs="*")
         p.add_argument("-o", "--output", default="output.dat")
         return super(cls, cls).set_arguments(p)
