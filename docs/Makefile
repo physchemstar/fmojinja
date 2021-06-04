@@ -19,7 +19,10 @@ help:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-html: intl_update
+html: apidoc intl_update
+apidoc:
+	sphinx-apidoc -f -o _api -M "../fmojinja/"
+
 intl_update: gettext
 	sphinx-intl update -p $(BUILDDIR)/gettext -l en -l ja
 

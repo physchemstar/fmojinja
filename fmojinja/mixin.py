@@ -6,22 +6,42 @@ from argparse import ArgumentParser
 import pandas as pd
 
 
-class SubCommandMixin:
+class SubCommand:
+    """Abstract subcommand class for CLI.
+    """
     @classmethod
     def main_proc(cls, **kwargs):
+        """ main process
+
+        :param kwargs:
+        :return None:
+        """
         pass
 
     @staticmethod
     def set_arguments(p):
+        """ processes the given argparse.ArgumentParser for additional commandline arguments.
+        This static method should be overrode for additional commandline arguments.
+
+        :param p argparse.ArgumentParser:
+        :return argparse.ArgumentParser: Processed argparse.ArgumentParser
+        """
         return p
 
 
 class SubCommands:
+    """Methods for collections of SubCommandMixin subclasses.
+    """
     @staticmethod
-    def main_proc(subcommands):
+    def main_proc(sub_commands):
+        """Handle SubCommand children.
+
+        :param subcommands {str: SumCommandMixin}:
+        :return None: rendered template (TemplateRendererMixin) or csv (ReaderMixin) is going to be printed.
+        """
         p = ArgumentParser()
         p_subs = p.add_subparsers(dest="sub_command")
-        for command_name, command_class in subcommands.items():
+        for command_name, command_class in sub_commands.items():
             p_sub = p_subs.add_parser(command_name, help=repr(command_class))
             p_sub = command_class.set_arguments(p_sub)
             p_sub.set_defaults(main_proc=command_class.main_proc)
@@ -35,7 +55,7 @@ class SubCommands:
         a.main_proc(**vars(a))
 
 
-class JinjaMixin(SubCommandMixin):
+class TemplateRendererMixin(SubCommand):
     template = ""
 
     @classmethod
@@ -43,7 +63,7 @@ class JinjaMixin(SubCommandMixin):
         print(Environment().from_string(dedent(cls.template)).render(**kwargs))
 
 
-class ReaderMixin(SubCommandMixin):
+class ReaderMixin(SubCommand):
 
     @staticmethod
     def pandas_read(**kwargs):
@@ -65,7 +85,7 @@ class ReaderMixin(SubCommandMixin):
             is_first = False
 
 
-class CpptrajMixin(JinjaMixin):
+class CpptrajMixin(TemplateRendererMixin):
     @staticmethod
     def set_arguments(p):
         p.add_argument("-a", "--anchor", default="@CA,C,O,N")

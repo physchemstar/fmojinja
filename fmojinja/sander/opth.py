@@ -1,8 +1,8 @@
-from ..mixin import JinjaMixin
+from ..mixin import TemplateRendererMixin
 from ..__version__ import get_version
 
 
-class OptH(JinjaMixin):
+class OptH(TemplateRendererMixin):
     """
     e.g. python -m fmojinja.sander opth > $*.in; sander -O -i $*.in -o $*.mdout -r $*.rst_opt -p $*.parm -c $< -ref $<
     """

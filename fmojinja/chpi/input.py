@@ -1,7 +1,7 @@
-from ..mixin import JinjaMixin
+from ..mixin import TemplateRendererMixin
 
 
-class Input(JinjaMixin):
+class Input(TemplateRendererMixin):
     template = """{{ pdb }}
 {{ vpi }}
 {{ output }}

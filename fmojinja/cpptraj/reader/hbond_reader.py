@@ -2,7 +2,7 @@ import pandas as pd
 from ...mixin import ReaderMixin
 
 
-class HbondReader(ReaderMixin):
+class HbondReaderMixin(ReaderMixin):
 
     @staticmethod
     def pandas_read(path):

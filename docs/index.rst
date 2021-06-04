@@ -15,6 +15,13 @@ Welcome to fmojinja's documentation!
    usage
 
 .. toctree::
+   :caption: Api
+   :maxdepth: 8
+   :glob:
+
+   _api/modules
+
+.. toctree::
    :caption: Tutorials
    :maxdepth: 1
    :glob:

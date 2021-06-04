@@ -3,7 +3,7 @@ from ...mixin import ReaderMixin
 import re
 
 
-class RmsdReader(ReaderMixin):
+class RmsdReaderMixin(ReaderMixin):
 
     @staticmethod
     def pandas_read(path, dt_per_frame=50, **kwargs):
