@@ -26,6 +26,7 @@ class SubCommand:
         :param p argparse.ArgumentParser:
         :return argparse.ArgumentParser: Processed argparse.ArgumentParser
         """
+
         return p
 
 
@@ -39,7 +40,10 @@ class SubCommands:
         :param subcommands {str: SumCommandMixin}:
         :return None: rendered template (TemplateRendererMixin) or csv (ReaderMixin) is going to be printed.
         """
+        import logging
+
         p = ArgumentParser()
+        p.add_argument("-v", "--verbose", action="store_true")
         p_subs = p.add_subparsers(dest="sub_command")
         for command_name, command_class in sub_commands.items():
             p_sub = p_subs.add_parser(command_name, help=repr(command_class))
@@ -47,6 +51,8 @@ class SubCommands:
             p_sub.set_defaults(main_proc=command_class.main_proc)
 
         a = p.parse_args()
+        if a.verbose:
+            logging.basicConfig(level=logging.DEBUG)
 
         if a.sub_command is None:
             p.print_help()
