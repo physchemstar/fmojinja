@@ -8,6 +8,8 @@ print(os.linesep.join([
     "python -m fmojinja.chpi",
     "python -m fmojinja.cpptraj",
     "python -m fmojinja.cpptraj.reader",
+    "python -m fmojinja.moebatch",
+    "python -m fmojinja.plip.reader",
     "python -m fmojinja.sander"
 ])
 )
