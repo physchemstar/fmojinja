@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import dask
-from dask.distributed import Client
 import math
 import re
 from logging import getLogger
@@ -318,12 +316,7 @@ class CpfReader(ReaderMixin):
         chunksize = math.floor((mem_limit / estimated_df_row_mem) * chunk_ratio)
         logger.debug(f"read lines with chunksize: {chunksize}.")
         reader = pd.read_fwf(path, chunksize=chunksize, **opt)
-        if parallel:
-            with Client():
-                data = [dask.delayed(cpf_filter.filter)(d) for d in reader]
-                dimer_energy = dask.delayed(pd.concat)(data, ignore_index=True).compute()
-        else:
-            dimer_energy = pd.concat((cpf_filter.filter(d) for d in reader), ignore_index=True)
+        dimer_energy = pd.concat((cpf_filter.filter(d) for d in reader), ignore_index=True)
         energy_columns = dimer_energy.columns.difference(["i", "j", "m", "n"])
         dimer_energy[energy_columns] = dimer_energy[energy_columns] * hartree2kcalmol
         if what == "dimer_energy":
@@ -348,7 +341,6 @@ class CpfReader(ReaderMixin):
         p.add_argument("-nx", "--n-exclude")
         p.add_argument("-wh", "--what", choices=["atom_info", "frag_name", "dimer_energy"], default="frag_name")
         p.add_argument("-v", "--verbose", action="store_true")
-        p.add_argument("-p", "--parallel", action="store_true")
         p.add_argument("--mem-limit", default="1000MB")
         p.add_argument("--chunk-ratio", type=float, default=0.005)
         return p

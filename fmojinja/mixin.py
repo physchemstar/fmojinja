@@ -77,17 +77,12 @@ class ReaderMixin(SubCommand):
 
     @classmethod
     def main_proc(cls, files, **kwargs):
-        from io import StringIO
-
         is_first = True
         for path in files:
-            output = StringIO()
             df = cls.pandas_read(path=path, **kwargs)
             if len(files) > 1:
                 df = df.assign(path=path)
-            df.to_csv(output, index=False, header=is_first)
-            output.seek(0)
-            print(output.read())
+            df.to_csv(sys.stdout, index=False, header=is_first)
             is_first = False
 
 
