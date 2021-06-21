@@ -24,3 +24,13 @@ class TestReduceFrames(TestCase):
         self.assertEqual(lines[2], "trajin test.crd", "check trajin")
         self.assertEqual(lines[3], "trajout reduced/test.crd offset 10", "trajout with offset")
         self.assertEqual(lines[4], "run", "check trajin")
+
+    def test_simple_2(self):
+        lines = self.test.render(
+            trajin=[Path("test1.crd"), Path("test2.crd")],
+            parm=Path("test.prm"),
+            offset=10,
+            prefix="reduced/"
+        ).splitlines()
+        self.assertEqual(lines[5], 'clear trajin', "clear trajin data before next trajin.")
+        self.assertEqual(lines[6], 'trajin test2.crd', "process the second trajin.")
