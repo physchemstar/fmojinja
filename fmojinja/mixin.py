@@ -66,7 +66,11 @@ class TemplateRendererMixin(SubCommand):
 
     @classmethod
     def main_proc(cls, **kwargs):
-        print(Environment().from_string(dedent(cls.template)).render(**kwargs))
+        print(cls.render(**kwargs))
+
+    @classmethod
+    def render(cls, **kwargs):
+        return Environment().from_string(dedent(cls.template)).render(**kwargs)
 
 
 class ReaderMixin(SubCommand):
