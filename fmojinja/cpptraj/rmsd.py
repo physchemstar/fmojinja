@@ -19,7 +19,7 @@ run
 
     @classmethod
     def set_arguments(cls, p):
-        p.add_argument("--offset", default=100)
+        p.add_argument("--offset", default=1)
         p.add_argument("-ml", "--mask-list", nargs="*")
         p.add_argument("-o", "--output", default="output.dat")
         return super(cls, cls).set_arguments(p)
