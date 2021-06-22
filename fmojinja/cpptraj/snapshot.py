@@ -10,7 +10,7 @@ parm {{ parm }}
 trajin {{ path }} lastframe
 {%- endfor %}
 autoimage anchor {{ anchor }} origin
-{%- set ref = "ref {}".format(reference) if reference else "first" %}
+{%- set ref = "ref {}".format(reference) if ref else "first" %}
 {%- set move = "move {}".format(mask) if mask else "" %}
 align {{ align_mask }} {{ move }} {{ ref }}
 {% for path in trajin %}

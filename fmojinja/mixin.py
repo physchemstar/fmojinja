@@ -97,7 +97,7 @@ class CpptrajMixin(TemplateRendererMixin):
         p.add_argument("-m", "--mask", help="e.g. '@CA,C,O,N' ':1-100<:6.0|:NA'")
         p.add_argument("-p", "--parm", type=Path, required=True)
         p.add_argument("-y", "--trajin", type=Path, nargs="*", required=True)
-        p.add_argument("-ref", "--reference", type=Path)
+        p.add_argument("-c", "--ref", type=Path)
         p.add_argument("-am", "--align-mask", default="@CA,C,N", help="e.g.  '@CA,C,N' '@O3',C3',C4',C5',O5',P'")
         return p
 
