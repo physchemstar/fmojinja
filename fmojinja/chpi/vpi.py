@@ -1,7 +1,7 @@
-from ..mixin import SubCommandMixin
+from ..mixin import TemplateRendererMixin
 import yaml
 
-class Vpi(SubCommandMixin):
+class Vpi(TemplateRendererMixin):
     template = """
 PI-system  K  L  M  VPI   N   1    2    3    4    5    6
 REG   HIS  1  1  1  FIV   5   CG   ND1  CE1  NE2  CD2

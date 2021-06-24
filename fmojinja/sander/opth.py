@@ -1,8 +1,8 @@
-from ..mixin import SubCommandMixin
+from ..mixin import TemplateRendererMixin
 from ..__version__ import get_version
 
 
-class OptH(SubCommandMixin):
+class OptH(TemplateRendererMixin):
     """
     e.g. python -m fmojinja.sander opth > $*.in; sander -O -i $*.in -o $*.mdout -r $*.rst_opt -p $*.parm -c $< -ref $<
     """
@@ -11,18 +11,22 @@ class OptH(SubCommandMixin):
 OptH
 &cntrl
   imin=1, 
-  maxcyc=100000, 
-  ncyc=3000, 
-  drms=0.1,
-  ibelly=1
-  bellymask='!@H='
-  ig=-1,
-  vlimit=-1,
-  iwrap=1,
+  maxcyc={{ maxcyc }}, 
+  ncyc=3000,
+  drms={{ drms }},
+  ntr=1,
+  restraintmask='!@H=',
+  restraint_wt={{ restraint_wt }},
+  ig={{ seed }}
 /
 
 """
 
     @classmethod
     def set_arguments(cls, p):
-        return super(cls, cls).set_arguments(p)
+        p.add_argument("-mc", "--maxcyc", default=10000)
+        p.add_argument("--drms", default=1e-4)
+        p.add_argument("-rw", "--restraint-wt", default=1000)
+        p.add_argument("-ig", "--seed", default=-1)
+
+        return super().set_arguments(p)

@@ -1,7 +1,7 @@
-from ..mixin import SubCommandMixin
+from ..mixin import TemplateRendererMixin
 
 
-class Input(SubCommandMixin):
+class Input(TemplateRendererMixin):
     template = """{{ pdb }}
 {{ vpi }}
 {{ output }}
