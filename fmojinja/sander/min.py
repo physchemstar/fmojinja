@@ -16,7 +16,7 @@ class Min(TemplateRendererMixin):
   drms={{ drms }},
   ntr=1,
 {%- if restraint_mask != None %}
-  restraintmask='{{ restraint_mask }}',
+  restraintmask="{{ restraint_mask }}",
   restraint_wt={{ restraint_wt }},
 {%- endif %}
   ig={{ seed }},
