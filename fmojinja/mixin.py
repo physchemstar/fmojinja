@@ -41,7 +41,7 @@ class SubCommands:
         """Handle SubCommand children.
 
         :param sub_commands: {str: SumCommandMixin}:
-        :return None: rendered template (TemplateRendererMixin) or csv (ReaderMixin) is going to be printed.
+        :return None:a rendered template (TemplateRendererMixin) or csv (ReaderMixin) is going to be printed.
         """
         import logging
 
@@ -69,7 +69,7 @@ class TemplateRendererMixin(SubCommand):
 
     @classmethod
     def main_proc(cls, **kwargs) -> None:
-        print(cls.render(**kwargs))
+        sys.stdout.write(cls.render(**kwargs))
 
     @classmethod
     def render(cls, **kwargs) -> str:
@@ -102,6 +102,5 @@ class CpptrajMixin(TemplateRendererMixin):
         p.add_argument("-p", "--parm", type=Path, required=True, help="topology file")
         p.add_argument("-y", "--trajin", type=Path, nargs="*", required=True, help="trajectory files")
         p.add_argument("-c", "--ref", type=Path, help="reference file")
-        p.add_argument("-am", "--align-mask", default="@CA,C,N",
-                       help="align mask e.g. '@CA,C,N' '@O3',C3',C4',C5',O5',P'")
+        p.add_argument("-am", "--align-mask", default="@CA,C,N", help="align mask e.g. '@CA,C,N' @O3',C3',C4',C5',O5',P")
         return p
