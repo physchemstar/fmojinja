@@ -4,13 +4,15 @@ from pathlib import Path
 import sys
 from argparse import ArgumentParser
 import pandas as pd
+from typing import Dict, List, Type
 
 
 class SubCommand:
     """Abstract subcommand class for CLI.
     """
+
     @classmethod
-    def main_proc(cls, **kwargs):
+    def main_proc(cls, **kwargs) -> None:
         """ main process
 
         :param kwargs:
@@ -18,12 +20,12 @@ class SubCommand:
         """
         pass
 
-    @staticmethod
-    def set_arguments(p):
+    @classmethod
+    def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
         """ processes the given argparse.ArgumentParser for additional commandline arguments.
         This static method should be overrode for additional commandline arguments.
 
-        :param p argparse.ArgumentParser:
+        :param p: argparse.ArgumentParser:
         :return argparse.ArgumentParser: Processed argparse.ArgumentParser
         """
 
@@ -33,11 +35,12 @@ class SubCommand:
 class SubCommands:
     """Methods for collections of SubCommandMixin subclasses.
     """
+
     @staticmethod
-    def main_proc(sub_commands):
+    def main_proc(sub_commands: Dict[str, Type[SubCommand]]) -> None:
         """Handle SubCommand children.
 
-        :param subcommands {str: SumCommandMixin}:
+        :param sub_commands: {str: SumCommandMixin}:
         :return None: rendered template (TemplateRendererMixin) or csv (ReaderMixin) is going to be printed.
         """
         import logging
@@ -65,22 +68,22 @@ class TemplateRendererMixin(SubCommand):
     template = ""
 
     @classmethod
-    def main_proc(cls, **kwargs):
+    def main_proc(cls, **kwargs) -> None:
         print(cls.render(**kwargs))
 
     @classmethod
-    def render(cls, **kwargs):
+    def render(cls, **kwargs) -> str:
         return Environment().from_string(dedent(cls.template)).render(**kwargs)
 
 
 class ReaderMixin(SubCommand):
 
     @staticmethod
-    def pandas_read(**kwargs):
+    def pandas_read(**kwargs) -> pd.DataFrame:
         return pd.DataFrame(None)
 
     @classmethod
-    def main_proc(cls, files, **kwargs):
+    def main_proc(cls, files: List[Path], **kwargs) -> None:
         is_first = True
         for path in files:
             df = cls.pandas_read(path=path, **kwargs)
@@ -91,13 +94,14 @@ class ReaderMixin(SubCommand):
 
 
 class CpptrajMixin(TemplateRendererMixin):
-    @staticmethod
-    def set_arguments(p):
-        p.add_argument("-a", "--anchor", default="@CA,C,O,N")
-        p.add_argument("-m", "--mask", help="e.g. '@CA,C,O,N' ':1-100<:6.0|:NA'")
-        p.add_argument("-p", "--parm", type=Path, required=True)
-        p.add_argument("-y", "--trajin", type=Path, nargs="*", required=True)
-        p.add_argument("-c", "--ref", type=Path)
-        p.add_argument("-am", "--align-mask", default="@CA,C,N", help="e.g.  '@CA,C,N' '@O3',C3',C4',C5',O5',P'")
+    @classmethod
+    def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
+        p = super(CpptrajMixin, cls).set_arguments(p)
+        p.add_argument("-a", "--anchor", default="@CA,C,O,N", help="anchor info.")
+        p.add_argument("-m", "--mask", help="mask info. e.g. '@CA,C,O,N' ':1-100<:6.0|:NA'")
+        p.add_argument("-p", "--parm", type=Path, required=True, help="topology file")
+        p.add_argument("-y", "--trajin", type=Path, nargs="*", required=True, help="trajectory files")
+        p.add_argument("-c", "--ref", type=Path, help="reference file")
+        p.add_argument("-am", "--align-mask", default="@CA,C,N",
+                       help="align mask e.g. '@CA,C,N' '@O3',C3',C4',C5',O5',P'")
         return p
-

@@ -45,3 +45,22 @@ class TestRmsd(TestCase):
         self.assertEqual(lines[7], "rmsd rmsd_align  out  nofit reference")
         self.assertEqual(lines[8], "rmsd rmsd_:C,CA,N :C,CA,N out  nofit reference")
         self.assertEqual(lines[9], "rmsd rmsd_:1 :1 out  nofit reference")
+
+    def test_simple_3(self):
+        """
+        simple test 3 for Rmsd
+        i.e. python -m fmojinja.cpptraj rmsd -reference test.ref -p test.prm \
+        -y test1.crd test2.crd -ml :C,CA,N :1 :2 --offset 10
+        :return: None
+        """
+        lines = self.test.render(
+            trajin=[Path("test1.crd"), Path("test2.crd")],
+            parm=Path("test.prm"),
+            ref=Path("test.ref"),
+            mask_list=[":C,CA,N", ":1", ":2"],
+        ).splitlines()
+        self.assertEqual(lines[2], "trajin test1.crd 1 last")
+        self.assertEqual(lines[3], "trajin test2.crd 1 last")
+        self.assertEqual(lines[7], "rmsd rmsd_align  out  nofit reference")
+        self.assertEqual(lines[8], "rmsd rmsd_:C,CA,N :C,CA,N out  nofit reference")
+        self.assertEqual(lines[9], "rmsd rmsd_:1 :1 out  nofit reference")

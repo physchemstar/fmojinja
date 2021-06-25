@@ -1,7 +1,8 @@
 from ..mixin import SubCommands
-from .opth import OptH
+from .min import Min
+
 
 SubCommands.main_proc({
-    "opth": OptH
+    "min": Min
 })
 
