@@ -25,16 +25,21 @@ min{{ loop.index }}.mdin:
 -ig {{ seed }} > $@
 {%- endfor %}
 
-{% for i in title %}
-{%- if loop.index > 1 %}
-min{{ loop.index }}.restrt: min{{ loop.index - 1 }}.restrt
-\t$(MD_ENGINE) -O -i ${@:%.restrt=%.mdin} -o ${@:%.restrt=%.mdout} -p {{ prmtop }} -c ${<:%.restrt=%.restrt} -ref {{ inpcrd }} -r $@ -inf ${@:%.restrt=%.mdinfo}  
-{%- else %}
-min{{ loop.index }}.restrt:
-\t$(MD_ENGINE) -O -i ${@:%.restrt=%.mdin} -o ${@:%.restrt=%.mdout} -p {{ prmtop }} -c {{ inpcrd }} -ref {{ inpcrd }} -r $@ -inf ${@:%.restrt=%.mdinfo}
-{%- endif %}
-{%- endfor %}
+define sander_expr 
+min$(1).restrt: min$(2).restrt
+\t$(MD_ENGINE) -O \
+-i min$(1).mdin \
+-o min$(1).mdout \
+-p {{ prmtop }} \
+-c min$(2).restrt \
+-ref {{ inpcrd }} \
+-r min$(1).restrt \
+-inf min$(2).mdinfo 
+endef
+$(foreach i,$(shell seq {{ title | length }} -1 1),$(eval $(call sander_expr,$(i),$(shell expr $(i) - 1))))
 
+min0.restrt:
+\tcp {{ inpcrd }} $@
 
 """
 
@@ -47,6 +52,6 @@ min{{ loop.index }}.restrt:
         p.add_argument("-rm", "--restraint-mask", nargs="+", required=True, help="restraint mask. e.g. '!@H=' ")
         p.add_argument("-rw", "--restraint-wt", nargs="+", required=True, help="the weight (kcal/mol angstrom) for the positional restraints")
         p.add_argument("-ig", "--seed", default=-1)
-        p.add_argument("-p", "--prmtop", type=Path)
-        p.add_argument("-c", "--inpcrd", type=Path)
+        p.add_argument("-p", "--prmtop", type=Path, required=True)
+        p.add_argument("-c", "--inpcrd", type=Path, required=True)
         return p
