@@ -65,7 +65,7 @@ class SubCommands:
 
 
 class TemplateRendererMixin(SubCommand):
-    template: str = ""
+    template: str = None
 
     @classmethod
     def main_proc(cls, **kwargs) -> None:
