@@ -65,8 +65,7 @@ class SubCommands:
 
 
 class TemplateRendererMixin(SubCommand):
-    env = Environment()
-    template = ""
+    template: str = ""
 
     @classmethod
     def main_proc(cls, **kwargs) -> None:
@@ -74,7 +73,7 @@ class TemplateRendererMixin(SubCommand):
 
     @classmethod
     def render(cls, **kwargs) -> str:
-        return cls.env.from_string(dedent(cls.template)).render(**kwargs)
+        return Environment().from_string(dedent(cls.template)).render(**kwargs)
 
 
 class ReaderMixin(SubCommand):

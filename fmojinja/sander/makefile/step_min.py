@@ -2,6 +2,9 @@ from ...mixin import TemplateRendererMixin
 from ...__version__ import get_version
 from argparse import ArgumentParser
 from pathlib import Path
+from jinja2 import Environment
+from ...jinja_filters import broadcast_n
+from textwrap import dedent
 
 
 class StepMin(TemplateRendererMixin):
@@ -16,11 +19,11 @@ clean:
 .PHONY: run
 run: $(MIN) min{{ title | length }}.restrt 
 
-{% for i in title %}
-min{{ loop.index }}.mdin:
-\tpython -m fmojinja.sander min -t {{i}} \
--rm "{{ restraint_mask[loop.index - 1] }}" \
--rw {{ restraint_wt[loop.index - 1] }} \
+{% for i in range(1, nsteps + 1) %}
+min{{ i }}.mdin:
+\tpython -m fmojinja.sander min -t {{ title | broadcast(i) }} \
+-rm "{{ restraint_mask | broadcast(i) }}" \
+-rw {{ restraint_wt | broadcast(i) }} \
 -mc {{ maxcyc }} \
 -ig {{ seed }} > $@
 {%- endfor %}
@@ -44,8 +47,15 @@ min0.restrt:
 """
 
     @classmethod
+    def render(cls, **kwargs) -> str:
+        env = Environment()
+        env.filters["broadcast"] = broadcast_n(kwargs.get("nsteps"))
+        return Environment().from_string(dedent(cls.template)).render(**kwargs)
+
+    @classmethod
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
         p = super(StepMin, cls).set_arguments(p)
+        p.add_argument("-ns", "--nsteps", type=int, required=True, help="number of steps")
         p.add_argument("-t", "--title", nargs="+", help="title for the input.")
         p.add_argument("-mc", "--maxcyc", default=10000)
         p.add_argument("--drms", default=1e-4)
