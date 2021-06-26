@@ -14,10 +14,12 @@ class Min(TemplateRendererMixin):
   maxcyc={{ maxcyc }}, 
   ncyc=3000,
   drms={{ drms }},
-  ntr=1,
 {%- if restraint_mask != None %}
+  ntr=1,
   restraintmask="{{ restraint_mask }}",
   restraint_wt={{ restraint_wt }},
+{%- else %}
+  ntr=0,
 {%- endif %}
   ig={{ seed }},
 /
