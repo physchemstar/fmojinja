@@ -1,6 +1,7 @@
+import argparse
 from ..mixin import TemplateRendererMixin
 from ..__version__ import get_version
-from argparse import ArgumentParser
+from argparse import ArgumentParser, PARSER
 
 class Auto(TemplateRendererMixin):
 
@@ -39,7 +40,7 @@ class Auto(TemplateRendererMixin):
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
         p = super(Auto, cls).set_arguments(p)
         p.add_argument("--method", default="MP2")
-        p.add_argument("--memory", default="6000")
+        p.add_argument("--memory", type=int, choices=range(1000, 13000, 1000), default="6000", help='Default=6000, Max memory size of Fugaku is 12000/proc.')
         p.add_argument("-p", "--pdb", required=True)
         p.add_argument("-g", "--geom", type=str)
         p.add_argument("-c", "--charge", type=int, default=0)
