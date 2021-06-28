@@ -2,7 +2,10 @@ from ..mixin import TemplateRendererMixin
 
 
 class Input(TemplateRendererMixin):
-    template = """{{ pdb }}
+
+    @classmethod
+    def template(cls) -> str:
+        return """{{ pdb }}
 {{ vpi }}
 {{ output }}
 {{ out_mol }}

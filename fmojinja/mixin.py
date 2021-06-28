@@ -5,6 +5,7 @@ import sys
 from argparse import ArgumentParser
 import pandas as pd
 from typing import Dict, List, Type
+from abc import abstractmethod
 
 
 class SubCommand:
@@ -65,7 +66,11 @@ class SubCommands:
 
 
 class TemplateRendererMixin(SubCommand):
-    template: str = None
+
+    @classmethod
+    @abstractmethod
+    def template(cls) -> str:
+        return ""
 
     @classmethod
     def main_proc(cls, **kwargs) -> None:
@@ -73,13 +78,14 @@ class TemplateRendererMixin(SubCommand):
 
     @classmethod
     def render(cls, **kwargs) -> str:
-        return Environment().from_string(dedent(cls.template)).render(**kwargs)
+        return Environment().from_string(dedent(cls.template())).render(**kwargs)
 
 
 class ReaderMixin(SubCommand):
 
-    @staticmethod
-    def pandas_read(**kwargs) -> pd.DataFrame:
+    @classmethod
+    @abstractmethod
+    def pandas_read(cls, **kwargs) -> pd.DataFrame:
         return pd.DataFrame(None)
 
     @classmethod
@@ -94,6 +100,7 @@ class ReaderMixin(SubCommand):
 
 
 class CpptrajMixin(TemplateRendererMixin):
+
     @classmethod
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
         p = super(CpptrajMixin, cls).set_arguments(p)

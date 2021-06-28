@@ -1,8 +1,12 @@
 from ..mixin import TemplateRendererMixin
+from argparse import ArgumentParser
 
 
 class ResInfo(TemplateRendererMixin):
-    template = """#!/usr/bin/env -S moebatch -run
+
+    @classmethod
+    def template(cls) -> str:
+        return """#!/usr/bin/env -S moebatch -run
 #svl
 // Output will be printed to stderr.  Use redirect (e.g. moebatch -run input.svl 2> output.csv ).
 function main []
@@ -19,7 +23,8 @@ function main []
 endfunction
 """
 
-    @staticmethod
-    def set_arguments(p):
+    @classmethod
+    def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
+        p = super(ResInfo, cls).set_arguments(p)
         p.add_argument("moefile")
         return p

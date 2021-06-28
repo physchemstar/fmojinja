@@ -4,21 +4,24 @@ import math
 import re
 from logging import getLogger
 from ...mixin import ReaderMixin
+from typing import Type, Dict, Any, List, Optional
+from argparse import ArgumentParser
 
 logger = getLogger(__name__)
 
 
 class CpfFilter:
 
-    def __init__(self, m, n):
+    def __init__(self, m, n) -> None:
         self.m = m
         self.n = n
         logger.debug(self.m)
         logger.debug(self.n)
         logger.info(
-            f"CpfFilter is generated. {len(self.m) if self.m is not None else 'None'} x {len(self.n) if self.m is not None else 'None'} ")
+            f"CpfFilter is generated. "
+            f"{len(self.m) if self.m is not None else 'None'} x {len(self.n) if self.m is not None else 'None'}")
 
-    def complete_by_all_frag_id(self, n_frag):
+    def complete_by_all_frag_id(self, n_frag: int) -> None:
         if self.m is None:
             self.m = [i + 1 for i in range(n_frag)]
             logger.info(f"CpfFilter is completed. m: {len(self.m)}.")
@@ -27,7 +30,9 @@ class CpfFilter:
             logger.info(f"CpfFilter is completed. n: {len(self.n)}.")
 
     @classmethod
-    def by_frag_id_repr(cls, m_frag_id_repr, n_frag_id_repr):
+    def by_frag_id_repr(cls,
+                        m_frag_id_repr: str,
+                        n_frag_id_repr: str) -> "CpfFilter":
         m = None
         n = None
         if m_frag_id_repr:
@@ -41,7 +46,12 @@ class CpfFilter:
         return cls(m, n)
 
     @classmethod
-    def by_res_name(cls, frag_name: pd.DataFrame, m_include=None, m_exclude=None, n_include=None, n_exclude=None):
+    def by_res_name(cls,
+                    frag_name: pd.DataFrame,
+                    m_include: str = None,
+                    m_exclude: str = None,
+                    n_include: str = None,
+                    n_exclude: str = None) -> "CpfFilter":
         m_condition = np.array([True for _ in frag_name["frag_name"]])
         n_condition = np.array([True for _ in frag_name["frag_name"]])
         if m_include:
@@ -65,7 +75,7 @@ class CpfFilter:
 
         return cls(m, n)
 
-    def filter(self, df, *, i_name="i", j_name="j"):
+    def filter(self, df, *, i_name="i", j_name="j") -> pd.DataFrame:
         cond_1 = df[i_name].isin(self.m) & df[j_name].isin(self.n)
         cond_2 = df[i_name].isin(self.n) & df[j_name].isin(self.m)
         result = df[cond_1 | cond_2] \
@@ -78,11 +88,11 @@ class CpfFilter:
 class CpfReader(ReaderMixin):
 
     @staticmethod
-    def get_opt_singleton():
+    def get_opt_singleton() -> "Type[OptSingleton]":
         class OptSingleton:
-            _i = 0
-            _j = 0
-            _dtype = {
+            _i: int = 0
+            _j: int = 0
+            _dtype: Dict[str, str] = {
                 "id": "int",
                 "atom": "string",
                 "atom_type": "string",
@@ -103,7 +113,12 @@ class CpfReader(ReaderMixin):
             }
 
             @classmethod
-            def create(cls, header=None, nrows=0, widths=None, names=None, dtype_add=None):
+            def create(cls,
+                       header: str = None,
+                       nrows: int = 0,
+                       widths: List[int] = None,
+                       names: List[str] = None,
+                       dtype_add: Dict[str, str] = None) -> Dict[str, Any]:
                 if dtype_add is None:
                     dtype_add = {}
                 cls._i += cls._j
@@ -119,13 +134,13 @@ class CpfReader(ReaderMixin):
                 }
 
             @classmethod
-            def proceed_position(cls, n):
+            def proceed_position(cls, n) -> None:
                 cls._i += n
                 cls._j += 0
         return OptSingleton
 
     @staticmethod
-    def format_mem_limit(mem_limit):
+    def format_mem_limit(mem_limit: str) -> int:
         mem_limit = str(mem_limit).replace("M", "* (10**6)").replace("G", "* (10**9)")
         mem_limit = eval(mem_limit.replace("B", ""))
         return mem_limit
@@ -145,7 +160,7 @@ class CpfReader(ReaderMixin):
                     nproc=None,
                     mem_limit=10 ** 8,
                     chunk_ratio=0.05,
-                    **kwargs):
+                    **kwargs) -> Optional[pd.DataFrame, pd.Series]:
         """
         Cpf file reader
         :param path:
@@ -328,8 +343,8 @@ class CpfReader(ReaderMixin):
             return dimer_energy
         raise EOFError("Unexpected Error.")
 
-    @staticmethod
-    def set_arguments(p):
+    @classmethod
+    def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
         p.add_argument("files", nargs="+",
                        help="cpf or cpf compressed (pandas readable format) file(s) (e.g. .cpf, .cpf.gz, .cpf.zip)")
         p.add_argument("-m", help="frag_id e.g. '1,2,3', '1-200'")
