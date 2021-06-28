@@ -1,6 +1,6 @@
 from ..mixin import TemplateRendererMixin
 from ..__version__ import get_version
-
+from argparse import ArgumentParser
 
 class Auto(TemplateRendererMixin):
 
@@ -36,7 +36,8 @@ class Auto(TemplateRendererMixin):
 """
 
     @classmethod
-    def set_arguments(cls, p):
+    def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
+        p = super(Auto, cls).set_arguments(p)
         p.add_argument("--method", default="MP2")
         p.add_argument("--memory", default="6000")
         p.add_argument("-p", "--pdb", required=True)
@@ -50,4 +51,4 @@ class Auto(TemplateRendererMixin):
         p.add_argument("-np", "--nproc-per-frag", type=int, default=1)
         p.add_argument("-b", "--basis-set", default="6-31G*")
         p.add_argument("--auto-frag-only", action="store_true")
-        return super(cls, cls).set_arguments(p)
+        return p
