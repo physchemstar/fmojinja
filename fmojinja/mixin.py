@@ -111,3 +111,43 @@ class CpptrajMixin(TemplateRendererMixin):
         p.add_argument("-c", "--ref", type=Path, help="reference file")
         p.add_argument("-am", "--align-mask", default="@CA,C,N", help="align mask e.g. '@CA,C,N' @O3',C3',C4',C5',O5',P")
         return p
+
+
+class SanderMixin(TemplateRendererMixin):
+
+    @classmethod
+    def write_general_jinja(cls) -> str:
+        return """  
+  irest={{ restart }},
+  nstlim={{ nsteps_limit }},
+{%- if restraint_mask != None %}
+  ntr=1,
+  restraintmask="{{ restraint_mask }}",
+  restraint_wt={{ restraint_wt }},
+{%- else %}
+  ntr=0,
+{%- endif %}
+  cut={{ cut_off }},
+  dt={{ delta_time }},
+  ntpr={{ sampling_time }}, 
+  ntwr={{ sampling_time }}, 
+  ntwx={{ sampling_time }}, 
+  ntwv={{ sampling_time }}, 
+  ntwe={{ sampling_time }},
+  ig={{ seed }},
+  vlimit={{ vlimits }},
+
+"""
+
+    @classmethod
+    def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
+        p = super(SanderMixin, cls).set_arguments(p)
+        p.add_argument("-t", "--title", help="title for the input.")
+        p.add_argument("-irest", "--restart",type=int, default=1)
+        p.add_argument("-nt", "--sampling-time", type=int, default=1000)
+        p.add_argument("-nstlim", "--nsteps-limit", type=int, default=10000)
+        p.add_argument("-dt", "--delta-time", type=float, default=0.0005)
+        p.add_argument("-vl", "--vlimits", default=-1)
+        p.add_argument("-cut", "--cut-off",default=1.4)
+        p.add_argument("-ig", "--seed", default=-1)
+        return p
