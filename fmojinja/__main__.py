@@ -11,5 +11,6 @@ print(os.linesep.join([
     "python -m fmojinja.moebatch",
     "python -m fmojinja.plip.reader",
     "python -m fmojinja.sander"
+    "python -m fmojinja.gmx"
 ])
 )
