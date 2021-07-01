@@ -1,7 +1,7 @@
 import argparse
 from ..mixin import TemplateRendererMixin
 from ..__version__ import get_version
-from argparse import ArgumentParser, PARSER
+from argparse import ArgumentParser
 
 class Auto(TemplateRendererMixin):
 
