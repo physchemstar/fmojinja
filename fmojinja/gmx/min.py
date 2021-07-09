@@ -19,6 +19,7 @@ coulombtype  = {{ coulombtype }}
 rcoulomb     = {{ rcoulomb }}
 rvdw         = {{ rvdw }}
 pbc          = {{ pbc }}
+
 """
 
 	@classmethod
