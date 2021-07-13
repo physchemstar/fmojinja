@@ -117,37 +117,52 @@ class SanderMixin(TemplateRendererMixin):
 
     @classmethod
     def write_general_jinja(cls) -> str:
-        return """  
-  irest={{ restart }},
-  nstlim={{ nsteps_limit }},
-{%- if restraint_mask != None %}
-  ntr=1,
-  restraintmask="{{ restraint_mask }}",
-  restraint_wt={{ restraint_wt }},
-{%- else %}
-  ntr=0,
-{%- endif %}
-  cut={{ cut_off }},
-  dt={{ delta_time }},
+        return """{% set sampling_time = sampling_time if sampling_time else ((nsteps_limit / frames_per_file) | int) %}
   ntpr={{ sampling_time }}, 
   ntwr={{ sampling_time }}, 
+  iwrap={{ iwrap }},
   ntwx={{ sampling_time }}, 
   ntwv={{ sampling_time }}, 
   ntwe={{ sampling_time }},
-  ig={{ seed }},
+{%- if restraint_mask == None or restraint_mask == "" %}
+  ntr=0,
+{%- else %}
+  ntr=1,
+  restraintmask="{{ restraint_mask }}",
+  restraint_wt={{ restraint_wt }},
+{%- endif %}
+  nstlim={{ nsteps_limit }},
+  dt={{ delta_time }},
+  ntt={{ temperature_regulation }},
+  temp0={{ temperature }},
+  gamma_ln={{ gamma_ln }},
   vlimit={{ vlimits }},
-
+  pres0={{ pressure }},
+  taup={{ pressure_relaxation_time }},
+  cut={{ cut_off }},
+  ig={{ seed }},
 """
 
     @classmethod
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
         p = super(SanderMixin, cls).set_arguments(p)
-        p.add_argument("-t", "--title", help="title for the input.")
-        p.add_argument("-irest", "--restart",type=int, default=1)
-        p.add_argument("-nt", "--sampling-time", type=int, default=1000)
-        p.add_argument("-nstlim", "--nsteps-limit", type=int, default=10000)
+        p.add_argument("-t", "--title", help="title")
+        p.add_argument("-nt", "--sampling-time", type=int)
+        p.add_argument("-iwrap", default=1)
+        p.add_argument("-nstlim", "--nsteps-limit", type=int, default=200000)
         p.add_argument("-dt", "--delta-time", type=float, default=0.0005)
         p.add_argument("-vl", "--vlimits", default=-1)
-        p.add_argument("-cut", "--cut-off",default=1.4)
+        p.add_argument("-cut", "--cut-off",default=12.0)
         p.add_argument("-ig", "--seed", default=-1)
+
+        p.add_argument("-pres0", "--pressure", default=1.01)
+        p.add_argument("-taup", "--pressure-relaxation-time", default=2.0)
+        p.add_argument("-temp0", "--temperature", default=300)
+        p.add_argument("-ntt", "--temperature-regulation", default=3)
+        p.add_argument("-gl", "--gamma-ln", default=1.0)
+        p.add_argument("-rm", "--restraint-mask", help="restraint mask. e.g. '!@H=' ")
+        p.add_argument("-rw", "--restraint-wt", default=10, help="the weight (kcal/mol angstrom)"
+                                                                 " for the positional restraints")
+
+        p.add_argument("-fpf", "--frames-per-file", type=int, default=10)
         return p
