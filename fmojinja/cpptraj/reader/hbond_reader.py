@@ -5,7 +5,7 @@ from ...mixin import ReaderMixin
 class HbondReaderMixin(ReaderMixin):
 
     @staticmethod
-    def pandas_read(path):
+    def pandas_read(path, **kwargs):
         return pd.read_fwf(
             path,
             widths=[15, 16, 16, 9, 13, 13, 13],

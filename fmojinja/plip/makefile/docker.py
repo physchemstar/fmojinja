@@ -5,7 +5,10 @@ class DockerMakefile(TemplateRendererMixin):
     """
 
     """
-    template = """
+
+    @classmethod
+    def template(cls):
+        return """
 XML := {% for i in pdb %}{{i.replace(".pdb", ".xml")}} \\
 {% endfor %}
 
