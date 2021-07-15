@@ -29,7 +29,7 @@ endef
 gen: $(PREFIX).prmtop $(PREFIX).mdin
 $(PREFIX).prmtop:
 \tcp {{ prmtop }} $@
-$(PREFIX).a.0.restrt:
+$(PREFIX).$(call wrap_num_w_tag, $(PS_PROD_START)).restrt:
 \tcp {{ inpcrd }} $@
 $(PREFIX).mdin:
 \tpython -m fmojinja.sander prod\
