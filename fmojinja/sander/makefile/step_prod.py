@@ -14,8 +14,8 @@ class StepProd(TemplateRendererMixin):
 MD_ENGINE = sander # e.g. sander, pmemd, pmemd.cuda, mpi -n 8 pmemd.MPI
 PREFIX := {{ prefix }}
 PS_OFFSET := {{ (delta_time * nsteps_limit) | int }}
-PS_END := {{ (delta_time * nsteps_limit * nsteps) | int }}
-PS_PROD_START := 0
+PS_END := {{ (delta_time * nsteps_limit * nsteps_offset) | int }}
+PS_PROD_START := {{ (delta_time * nsteps_limit * nsteps) | int }}
 PROD_SEQ := $(shell seq $(PS_END) -$(PS_OFFSET) $(shell expr $(PS_PROD_START) + 1))
 
 define wrap_num_w_tag
@@ -33,7 +33,7 @@ $(PREFIX).a.0.restrt:
 \tcp {{ inpcrd }} $@
 $(PREFIX).mdin:
 \tpython -m fmojinja.sander prod\
-{%- if title %} -t {{ title }} {%- else %} -t {{ i }}_prod{% endif %}\
+{%- if title %} -t {{ title }} {%- else %} -t prod{% endif %}\
 {%- if restraint_mask %} -rm "{{ restraint_mask }}" -rw {{ restraint_wt }}{% endif %}\
 {{ " -gl {}".format(gamma_ln) if gamma_ln else "" }}\
 {{ " -temp0 {}".format(temperature) if temperature else "" }}\
@@ -81,6 +81,7 @@ clean:
         p = super(StepProd, cls).set_arguments(p)
         p.add_argument("-P", "--prefix", default="prod")
         p.add_argument("-ns", "--nsteps", required=True, type=int, help="number of steps")
+        p.add_argument("-no", "--nsteps-offset", default=0, type=int, help="number of steps offset")
 
         p.add_argument("-p", "--prmtop", type=Path, required=True)
         p.add_argument("-c", "--inpcrd", type=Path, required=True)
