@@ -16,7 +16,7 @@ PREFIX := {{ prefix }}
 PS_OFFSET := {{ (delta_time * nsteps_limit) | int }}
 PS_END := {{ (delta_time * nsteps_limit * nsteps) | int }}
 PS_PROD_START := {{ (delta_time * nsteps_limit * nsteps_offset) | int }}
-PROD_SEQ := $(shell seq $(PS_END) - $(PS_OFFSET) $(shell expr $(PS_PROD_START) + 1))
+PROD_SEQ := $(shell seq $(PS_END) -$(PS_OFFSET) $(shell expr $(PS_PROD_START) + 1))
 
 define wrap_num_w_tag
 $(shell awk 'BEGIN{\
