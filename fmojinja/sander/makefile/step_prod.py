@@ -52,14 +52,14 @@ run: gen $(PREFIX).$(call wrap_num_w_tag, $(PS_END)).restrt
 # $<, $@ cannot be used in rules.
 define sander_expr # e.g. (3000, 1000) -> $(prefix).d.3000.$(suffix): $(prefix).d.2000.$(suffix)
 $(PREFIX).$(call wrap_num_w_tag, $(1)).restrt: $(PREFIX).$(call wrap_num_w_tag, $(shell expr $(1) - $(2))).restrt
-\t$(MD_ENGINE) -O \
--i $(PREFIX).mdin \
--o $(PREFIX).$(call wrap_num_w_tag, $(1)).mdout \
--p $(PREFIX).prmtop \
--c $(PREFIX).$(call wrap_num_w_tag, $(shell expr $(1) - $(2))).restrt \
--ref $(PREFIX).a.0.restrt \
--r $(PREFIX).$(call wrap_num_w_tag, $(1)).restrt \
--inf $(PREFIX).$(call wrap_num_w_tag, $(1)).mdinfo 
+\t$(MD_ENGINE) -O \\
+\t-i $(PREFIX).mdin \\
+\t-o $(PREFIX).$(call wrap_num_w_tag, $(1)).mdout \\
+\t-p $(PREFIX).prmtop \\
+\t-c $(PREFIX).$(call wrap_num_w_tag, $(shell expr $(1) - $(2))).restrt \\
+\t-ref $(PREFIX).a.0.restrt \\
+\t-r $(PREFIX).$(call wrap_num_w_tag, $(1)).restrt \\
+\t-inf $(PREFIX).$(call wrap_num_w_tag, $(1)).mdinfo 
 endef
 $(foreach i, $(PROD_SEQ), $(eval $(call sander_expr, $(i), $(PS_OFFSET))))
 

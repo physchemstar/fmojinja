@@ -47,14 +47,14 @@ $(PREFIX)_finish.restrt: gen $(PREFIX)$(NSTEPS).restrt
 
 define sander_expr 
 $(PREFIX)$(1).restrt: $(PREFIX)$(2).restrt
-\t$(MD_ENGINE) -O \
--i $(PREFIX)$(1).mdin \
--o $(PREFIX)$(1).mdout \
--p $(PREFIX).prmtop \
--c $(PREFIX)$(2).restrt \
--ref $(PREFIX)0.restrt \
--r $(PREFIX)$(1).restrt \
--inf $(PREFIX)$(1).mdinfo 
+\t$(MD_ENGINE) -O \\
+\t-i $(PREFIX)$(1).mdin \\
+\t-o $(PREFIX)$(1).mdout \\
+\t-p $(PREFIX).prmtop \\
+\t-c $(PREFIX)$(2).restrt \\
+\t-ref $(PREFIX)0.restrt \\
+\t-r $(PREFIX)$(1).restrt \\
+\t-inf $(PREFIX)$(1).mdinfo 
 endef
 $(foreach i,$(shell seq $(NSTEPS) -1 1),$(eval $(call sander_expr,$(i),$(shell expr $(i) - 1))))
 
