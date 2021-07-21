@@ -12,21 +12,10 @@ parm {{ parm }}
 trajin {{ path }} lastframe
 {%- endfor %}
 autoimage anchor {{ anchor }} origin
-{%- set ref = "ref {}".format(ref) if ref else "first" %}
-{%- set move = "move {}".format(mask) if mask else "" %}
-align {{ align_mask }} {{ move }} {{ ref }}
+align {{ align_mask }} {{ "ref {}".format(ref) if ref else "first" }}
 {% for path in trajin %}
-{%- set fname = prefix ~ path.stem %}
-{% if mask != None -%}
-reference {{ path }} lastframe
-strip !({{ mask }})
-parmwrite out {{ fname }}.parm
-{%- endif %}
-outtraj {{ fname }}.pdb trajout onlyframes {{ loop.index }} nobox pdbter topresnum
-trajout {{ fname }}.rst onlyframes {{ loop.index }}
-{% if mask != None -%}
-unstrip
-{%- endif -%}
+outtraj {{ prefix ~ path.stem }}.pdb trajout onlyframes {{ loop.index }} pdbter topresnum
+trajout {{ prefix ~ path.stem }}.rst onlyframes {{ loop.index }}
 {% endfor %}
 
 run
