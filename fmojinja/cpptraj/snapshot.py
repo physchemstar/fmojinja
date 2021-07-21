@@ -14,7 +14,6 @@ trajin {{ path }} lastframe
 autoimage anchor {{ anchor }} origin
 align {{ align_mask }} {{ "ref {}".format(ref) if ref else "first" }}
 {% for path in trajin %}
-outtraj {{ prefix ~ path.stem }}.pdb trajout onlyframes {{ loop.index }} pdbter topresnum
 trajout {{ prefix ~ path.stem }}.rst onlyframes {{ loop.index }}
 {% endfor %}
 
