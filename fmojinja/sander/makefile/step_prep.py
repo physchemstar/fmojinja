@@ -16,6 +16,12 @@ PREFIX := {{ prefix }}
 NSTEPS := {{ jobs | length }}
 INPUTS :={% for _ in jobs %} $(PREFIX){{ loop.index }}.mdin{% endfor %}
 
+define wrap_num_w_tag
+$(shell awk 'BEGIN{\
+d[1]="a";d[2]="b";d[3]="c";d[4]="d";d[5]="e";d[6]="f";d[7]="g";d[8]="h";d[9]="i";\
+print d[length($(1))] "." int($(1))}')
+endef
+
 
 .PHONY: gen
 gen: $(PREFIX).prmtop $(INPUTS)
@@ -54,9 +60,19 @@ $(PREFIX)$(1).restrt: $(PREFIX)$(2).restrt
 \t-c $(PREFIX)$(2).restrt \\
 \t-ref $(PREFIX)0.restrt \\
 \t-r $(PREFIX)$(1).restrt \\
-\t-inf $(PREFIX)$(1).mdinfo 
+\t-inf $(PREFIX)$(1).mdinfo
 endef
 $(foreach i,$(shell seq $(NSTEPS) -1 1),$(eval $(call sander_expr,$(i),$(shell expr $(i) - 1))))
+
+
+.PHONY: link2ps
+link2ps:
+{%- set accum_time = namespace(value=0) %}
+{%- for job in jobs %}
+{%- if job != "min" %}
+{%- set accum_time.value = accum_time.value + ((( nsteps_limit | broadcast(loop.index)) * delta_time) | int) %}
+\tln -s $(PREFIX){{ loop.index }}.restrt $(PREFIX).$(call wrap_num_w_tag, {{ accum_time.value }}).restrt
+{%- endif %}{%- endfor %}
 
 
 .PHONY: clean
