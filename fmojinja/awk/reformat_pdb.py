@@ -26,5 +26,5 @@ BEGIN { i = 1
     @classmethod
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
         p = super(ReformatPdb, cls).set_arguments(p)
-        p.add_argument("-c", "--chain-starts", nargs="+")
+        p.add_argument("-c", "--chain-starts", nargs="*", default=[])
         return p
