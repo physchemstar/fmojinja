@@ -11,9 +11,11 @@ BEGIN { i = 1
 {%- set letters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" | list) %}
 {%- for _ in chain_starts %}; tag[{{ loop.index }}] = "{{ letters[loop.index0] }}"{% endfor -%}
 ; tag[{{ (chain_starts | length) + 1}}] = "{{ letters[(chain_starts | length)] }}" }
-# Left-justification
+# Left-justify
 /^ATOM|^HETATM/ && substr($0, 18, 2) == "  " { $0 = substr($0, 0, 17) substr($0, 20, 1) "  "  substr($0, 21) }
 /^ATOM|^HETATM/ && substr($0, 18, 1) == " " { $0 = substr($0, 0, 17) substr($0, 19, 2) " "  substr($0, 21) }
+# ToUpper Resname
+/^ATOM|^HETATM/ { $0 = substr($0, 0, 17) toupper(substr($0, 18, 3)) substr($0, 21) }
 # Reformat chain names
 {% for seq_id in chain_starts -%}
 !start_seq_{{ seq_id }} && int(substr($0, 23, 4)) == {{ seq_id }} { start_seq_{{ seq_id }} = 1; i = i + 1 }
