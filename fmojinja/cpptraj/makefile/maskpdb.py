@@ -13,11 +13,14 @@ PREFIX := {{ prefix }}
 PRMTOP := {{ prmtop }}
 TRAJIN :={% for path in trajin %} {{ path }}{% endfor %}
 MASK := {{ mask if mask else "" }}
-PDB := $(addsuffix .pdb, $(addprefix $(PREFIX), $(basename $(notdir $(TRAJIN)))))
-
+CPPTRAJIN := $(addsuffix .cpptrajin, $(addprefix $(PREFIX), $(basename $(notdir $(TRAJIN)))))
+PDB := $(CPPTRAJIN:%.cpptrajin=%.pdb)
 
 .PHONY: run
-run: $(PREFIX) $(PDB)
+run: gen $(PDB)
+
+.PHONY: gen
+gen: $(PREFIX) $(CPPTRAJIN)
 
 $(PREFIX):
 \tmkdir $(PREFIX)
