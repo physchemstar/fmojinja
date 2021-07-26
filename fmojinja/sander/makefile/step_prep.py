@@ -71,7 +71,7 @@ link2ps:
 {%- for job in jobs %}
 {%- if job != "min" %}
 {%- set accum_time.value = accum_time.value + ((( nsteps_limit | broadcast(loop.index)) * delta_time) | int) %}
-\tln -s $(PREFIX){{ loop.index }}.restrt $(PREFIX).$(call wrap_num_w_tag, {{ accum_time.value }}).restrt
+\tln $(PREFIX){{ loop.index }}.restrt $(PREFIX).$(call wrap_num_w_tag, {{ accum_time.value }}).restrt
 {%- endif %}{%- endfor %}
 
 
