@@ -33,6 +33,7 @@ define expr
 $(PREFIX)$(basename $(notdir $(1))).cpptrajin: $(1)
 \techo parm $(PRMTOP) > $(PREFIX)$(basename $(notdir $(1))).cpptrajin
 \techo trajin $(1) >> $(PREFIX)$(basename $(notdir $(1))).cpptrajin
+\techo 'autoimage "$(MASK)"' >> $(PREFIX)$(basename $(notdir $(1))).cpptrajin
 \techo 'mask "$(MASK)" maskpdb $(PREFIX)$(basename $(notdir $(1))).pdb' >> $(PREFIX)$(basename $(notdir $(1))).cpptrajin
 \techo run >>$(PREFIX)$(basename $(notdir $(1))).cpptrajin
 endef
