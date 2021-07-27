@@ -14,11 +14,6 @@ class SubCommand:
 
     @classmethod
     def main_proc(cls, **kwargs) -> None:
-        """ main process
-
-        :param kwargs:
-        :return None:
-        """
         pass
 
     @classmethod
@@ -26,8 +21,10 @@ class SubCommand:
         """ processes the given argparse.ArgumentParser for additional commandline arguments.
         This static method should be overrode for additional commandline arguments.
 
-        :param p: argparse.ArgumentParser:
-        :return argparse.ArgumentParser: Processed argparse.ArgumentParser
+        :param p: parser instance
+        :type p: argparse.ArgumentParser
+        :return: The processed parser
+        :rtype: argparse.ArgumentParser
         """
 
         return p

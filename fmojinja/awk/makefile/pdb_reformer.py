@@ -3,7 +3,7 @@ from ...__version__ import get_version
 from argparse import ArgumentParser
 
 
-class ReformatPdb(TemplateRendererMixin):
+class PdbReformer(TemplateRendererMixin):
 
     @classmethod
     def template(cls) -> str:
@@ -40,7 +40,7 @@ clean:
 
     @classmethod
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
-        p = super(ReformatPdb, cls).set_arguments(p)
+        p = super(PdbReformer, cls).set_arguments(p)
         p.add_argument("-P", "--prefix", default="reformat_pdb/")
         p.add_argument("-c", "--chain-starts", nargs="*", default=[])
         p.add_argument("-i", "--input-pdbs", required=True, nargs="+")
