@@ -16,7 +16,7 @@ align {{ align_mask }} {{ "ref {}".format(ref) if ref else "first" }}
 {% for path in trajin %}
 trajout {{ prefix ~ path.stem }}.rst onlyframes {{ loop.index }}
 {% endfor %}
-parmwrite out {{ prefix }}.prmtop
+parmwrite out {{ prefix }}prmtop
 run
 """
 
