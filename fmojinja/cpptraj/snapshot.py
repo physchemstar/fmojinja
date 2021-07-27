@@ -12,27 +12,15 @@ parm {{ parm }}
 trajin {{ path }} lastframe
 {%- endfor %}
 autoimage anchor {{ anchor }} origin
-{%- set ref = "ref {}".format(ref) if ref else "first" %}
-{%- set move = "move {}".format(mask) if mask else "" %}
-align {{ align_mask }} {{ move }} {{ ref }}
+align {{ align_mask }} {{ "ref {}".format(ref) if ref else "first" }}
 {% for path in trajin %}
-{%- set fname = prefix ~ path.stem %}
-{% if mask != None -%}
-reference {{ path }} lastframe
-strip !({{ mask }})
-parmwrite out {{ fname }}.parm
-{%- endif %}
-outtraj {{ fname }}.pdb trajout onlyframes {{ loop.index }} nobox pdbter topresnum
-trajout {{ fname }}.rst onlyframes {{ loop.index }}
-{% if mask != None -%}
-unstrip
-{%- endif -%}
+trajout {{ prefix ~ path.stem }}.rst onlyframes {{ loop.index }}
 {% endfor %}
-
+parmwrite out {{ prefix }}.prmtop
 run
 """
 
     @classmethod
     def set_arguments(cls, p):
-        p.add_argument("--prefix", default="snapshots/")
+        p.add_argument("-P", "--prefix", default="snapshots/")
         return super(cls, cls).set_arguments(p)

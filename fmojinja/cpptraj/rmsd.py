@@ -11,7 +11,7 @@ parm {{ parm }}
 {%- for path in trajin %}
 trajin {{ path }} 1 last{{ " {}".format(offset) if offset else "" }}
 {%- endfor %}
-{{ "reference {}".format(ref) if reference else "" }}
+{{ "reference {}".format(ref) if ref else "" }}
 autoimage anchor {{ anchor }} origin
 align {{ align_mask }} {{ "move {}".format(mask) if mask else "" }} {{ "ref {}".format(ref) if ref else "first" }}
 rmsd rmsd_align{{ align_mask }} {{ align_mask }} out {{ output }} nofit {{ "reference" if ref else "first" }}
