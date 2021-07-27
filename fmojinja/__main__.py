@@ -17,6 +17,7 @@ print(os.linesep.join([
     "python -m fmojinja.plip.makefile",
     "python -m fmojinja.plip.reader",
     "python -m fmojinja.sander",
-    "python -m fmojinja.sander.makefile",
+    "python -m fmojinja.gmx",
+    "python -m fmojinja.sander.makefile"
 ])
 )
