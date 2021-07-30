@@ -60,6 +60,7 @@ $(PREFIX)$(1).restrt: $(PREFIX)$(2).restrt
 \t-c $(PREFIX)$(2).restrt \\
 \t-ref $(PREFIX)0.restrt \\
 \t-r $(PREFIX)$(1).restrt \\
+\t-x $(PREFIX)$(1).mdcrd \\
 \t-inf $(PREFIX)$(1).mdinfo
 endef
 $(foreach i,$(shell seq $(NSTEPS) -1 1),$(eval $(call sander_expr,$(i),$(shell expr $(i) - 1))))

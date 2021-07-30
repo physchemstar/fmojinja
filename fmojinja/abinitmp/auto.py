@@ -9,7 +9,7 @@ class Auto(TemplateRendererMixin):
 
     ::
 
-        $ python -m fmojinja.abinitmp auto -h
+      python -m fmojinja.abinitmp auto  $ python -m fmojinja.abinitmp auto -h
 
     ::
 
@@ -37,7 +37,7 @@ class Auto(TemplateRendererMixin):
 
     ::
 
-        $  python -m fmojinja.abinitmp auto -p your.pdb
+        $   -p your.pdb
 
     ::
 
