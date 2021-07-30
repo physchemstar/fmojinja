@@ -1,8 +1,12 @@
 from ..mixin import TemplateRendererMixin
 import yaml
 
+
 class Vpi(TemplateRendererMixin):
-    template = """
+
+    @classmethod
+    def template(cls) -> str:
+        return """
 PI-system  K  L  M  VPI   N   1    2    3    4    5    6
 REG   HIS  1  1  1  FIV   5   CG   ND1  CE1  NE2  CD2
 REG   PHE  1  1  1  SIX   6   CG   CD1  CE1  CZ   CE2  CD2
