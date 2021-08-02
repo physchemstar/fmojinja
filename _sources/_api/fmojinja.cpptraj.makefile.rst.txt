@@ -1,0 +1,18 @@
+fmojinja.cpptraj.makefile package
+=================================
+
+.. automodule:: fmojinja.cpptraj.makefile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+fmojinja.cpptraj.makefile.maskpdb module
+----------------------------------------
+
+.. automodule:: fmojinja.cpptraj.makefile.maskpdb
+   :members:
+   :undoc-members:
+   :show-inheritance:

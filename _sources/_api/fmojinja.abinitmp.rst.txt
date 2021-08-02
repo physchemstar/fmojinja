@@ -1,0 +1,26 @@
+fmojinja.abinitmp package
+=========================
+
+.. automodule:: fmojinja.abinitmp
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fmojinja.abinitmp.reader
+
+Submodules
+----------
+
+fmojinja.abinitmp.auto module
+-----------------------------
+
+.. automodule:: fmojinja.abinitmp.auto
+   :members:
+   :undoc-members:
+   :show-inheritance:

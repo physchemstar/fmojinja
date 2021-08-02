@@ -1,0 +1,26 @@
+fmojinja.gmx package
+====================
+
+.. automodule:: fmojinja.gmx
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+fmojinja.gmx.equil module
+-------------------------
+
+.. automodule:: fmojinja.gmx.equil
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.gmx.min module
+-----------------------
+
+.. automodule:: fmojinja.gmx.min
+   :members:
+   :undoc-members:
+   :show-inheritance:

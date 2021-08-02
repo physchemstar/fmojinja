@@ -1,0 +1,29 @@
+fmojinja.plip package
+=====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fmojinja.plip.makefile
+
+Submodules
+----------
+
+fmojinja.plip.reader module
+---------------------------
+
+.. automodule:: fmojinja.plip.reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fmojinja.plip
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,18 @@
+fmojinja.awk.makefile package
+=============================
+
+.. automodule:: fmojinja.awk.makefile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+fmojinja.awk.makefile.pdb\_reformer module
+------------------------------------------
+
+.. automodule:: fmojinja.awk.makefile.pdb_reformer
+   :members:
+   :undoc-members:
+   :show-inheritance:

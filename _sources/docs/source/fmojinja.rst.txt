@@ -1,0 +1,60 @@
+fmojinja package
+================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fmojinja.abinitmp
+   fmojinja.awk
+   fmojinja.chpi
+   fmojinja.cpptraj
+   fmojinja.gmx
+   fmojinja.moebatch
+   fmojinja.plip
+   fmojinja.sander
+
+Submodules
+----------
+
+fmojinja.bare\_makefile module
+------------------------------
+
+.. automodule:: fmojinja.bare_makefile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.bare\_renderer module
+------------------------------
+
+.. automodule:: fmojinja.bare_renderer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.jinja\_filters module
+------------------------------
+
+.. automodule:: fmojinja.jinja_filters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.mixin module
+---------------------
+
+.. automodule:: fmojinja.mixin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fmojinja
+   :members:
+   :undoc-members:
+   :show-inheritance:

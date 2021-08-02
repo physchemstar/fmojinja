@@ -1,0 +1,21 @@
+fmojinja.plip.makefile package
+==============================
+
+Submodules
+----------
+
+fmojinja.plip.makefile.docker module
+------------------------------------
+
+.. automodule:: fmojinja.plip.makefile.docker
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fmojinja.plip.makefile
+   :members:
+   :undoc-members:
+   :show-inheritance:

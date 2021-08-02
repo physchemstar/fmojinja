@@ -1,0 +1,34 @@
+fmojinja.sander.makefile package
+================================
+
+.. automodule:: fmojinja.sander.makefile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+fmojinja.sander.makefile.snap\_min module
+-----------------------------------------
+
+.. automodule:: fmojinja.sander.makefile.snap_min
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.sander.makefile.step\_prep module
+------------------------------------------
+
+.. automodule:: fmojinja.sander.makefile.step_prep
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.sander.makefile.step\_prod module
+------------------------------------------
+
+.. automodule:: fmojinja.sander.makefile.step_prod
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,21 @@
+fmojinja.abinitmp.reader package
+================================
+
+Submodules
+----------
+
+fmojinja.abinitmp.reader.cpf\_reader module
+-------------------------------------------
+
+.. automodule:: fmojinja.abinitmp.reader.cpf_reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fmojinja.abinitmp.reader
+   :members:
+   :undoc-members:
+   :show-inheritance:

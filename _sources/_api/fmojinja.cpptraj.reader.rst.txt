@@ -1,0 +1,26 @@
+fmojinja.cpptraj.reader package
+===============================
+
+.. automodule:: fmojinja.cpptraj.reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+fmojinja.cpptraj.reader.hbond\_reader module
+--------------------------------------------
+
+.. automodule:: fmojinja.cpptraj.reader.hbond_reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.reader.rmsd\_reader module
+-------------------------------------------
+
+.. automodule:: fmojinja.cpptraj.reader.rmsd_reader
+   :members:
+   :undoc-members:
+   :show-inheritance:

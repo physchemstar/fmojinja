@@ -1,0 +1,18 @@
+fmojinja.moebatch package
+=========================
+
+.. automodule:: fmojinja.moebatch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+fmojinja.moebatch.resinfo module
+--------------------------------
+
+.. automodule:: fmojinja.moebatch.resinfo
+   :members:
+   :undoc-members:
+   :show-inheritance:

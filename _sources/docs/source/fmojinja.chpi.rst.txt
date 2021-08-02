@@ -1,0 +1,37 @@
+fmojinja.chpi package
+=====================
+
+Submodules
+----------
+
+fmojinja.chpi.input module
+--------------------------
+
+.. automodule:: fmojinja.chpi.input
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.chpi.reader module
+---------------------------
+
+.. automodule:: fmojinja.chpi.reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.chpi.vpi module
+------------------------
+
+.. automodule:: fmojinja.chpi.vpi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fmojinja.chpi
+   :members:
+   :undoc-members:
+   :show-inheritance:

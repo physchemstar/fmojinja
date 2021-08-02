@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>fmojinja.cpptraj package &mdash; fmojinja  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> fmojinja
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Main</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Api</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../_api/modules.html">fmojinja</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/plip.html">Binding site analysis with Plip</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">fmojinja</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>fmojinja.cpptraj package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/docs/source/fmojinja.cpptraj.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="fmojinja-cpptraj-package">
+<h1>fmojinja.cpptraj package<a class="headerlink" href="#fmojinja-cpptraj-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fmojinja.cpptraj.makefile.html">fmojinja.cpptraj.makefile package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fmojinja.cpptraj.makefile.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fmojinja.cpptraj.makefile.html#module-fmojinja.cpptraj.makefile.maskpdb">fmojinja.cpptraj.makefile.maskpdb module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fmojinja.cpptraj.makefile.html#module-fmojinja.cpptraj.makefile">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fmojinja.cpptraj.reader.html">fmojinja.cpptraj.reader package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fmojinja.cpptraj.reader.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fmojinja.cpptraj.reader.html#module-fmojinja.cpptraj.reader.hbond_reader">fmojinja.cpptraj.reader.hbond_reader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fmojinja.cpptraj.reader.html#module-fmojinja.cpptraj.reader.rmsd_reader">fmojinja.cpptraj.reader.rmsd_reader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fmojinja.cpptraj.reader.html#module-fmojinja.cpptraj.reader">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-fmojinja.cpptraj.hbond">
+<span id="fmojinja-cpptraj-hbond-module"></span><h2>fmojinja.cpptraj.hbond module<a class="headerlink" href="#module-fmojinja.cpptraj.hbond" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.hbond.Hbond">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.hbond.</span></span><span class="sig-name descname"><span class="pre">Hbond</span></span><a class="headerlink" href="#fmojinja.cpptraj.hbond.Hbond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../source/fmojinja.html#fmojinja.mixin.CpptrajMixin" title="fmojinja.mixin.CpptrajMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">fmojinja.mixin.CpptrajMixin</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.hbond.Hbond.set_arguments">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">set_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">argparse.ArgumentParser</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">argparse.ArgumentParser</span></span></span><a class="headerlink" href="#fmojinja.cpptraj.hbond.Hbond.set_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>processes the given argparse.ArgumentParser for additional commandline arguments.
+This static method should be overrode for additional commandline arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>argparse.ArgumentParser</em>) – parser instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The processed parser</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>argparse.ArgumentParser</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.hbond.Hbond.template">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#fmojinja.cpptraj.hbond.Hbond.template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj.reduce_frames">
+<span id="fmojinja-cpptraj-reduce-frames-module"></span><h2>fmojinja.cpptraj.reduce_frames module<a class="headerlink" href="#module-fmojinja.cpptraj.reduce_frames" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.reduce_frames.ReduceFrames">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.reduce_frames.</span></span><span class="sig-name descname"><span class="pre">ReduceFrames</span></span><a class="headerlink" href="#fmojinja.cpptraj.reduce_frames.ReduceFrames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../source/fmojinja.html#fmojinja.mixin.CpptrajMixin" title="fmojinja.mixin.CpptrajMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">fmojinja.mixin.CpptrajMixin</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.reduce_frames.ReduceFrames.set_arguments">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">set_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.reduce_frames.ReduceFrames.set_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>processes the given argparse.ArgumentParser for additional commandline arguments.
+This static method should be overrode for additional commandline arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>argparse.ArgumentParser</em>) – parser instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The processed parser</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>argparse.ArgumentParser</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.reduce_frames.ReduceFrames.template">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#fmojinja.cpptraj.reduce_frames.ReduceFrames.template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj.rmsd">
+<span id="fmojinja-cpptraj-rmsd-module"></span><h2>fmojinja.cpptraj.rmsd module<a class="headerlink" href="#module-fmojinja.cpptraj.rmsd" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.rmsd.Rmsd">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.rmsd.</span></span><span class="sig-name descname"><span class="pre">Rmsd</span></span><a class="headerlink" href="#fmojinja.cpptraj.rmsd.Rmsd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../source/fmojinja.html#fmojinja.mixin.CpptrajMixin" title="fmojinja.mixin.CpptrajMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">fmojinja.mixin.CpptrajMixin</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.rmsd.Rmsd.set_arguments">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">set_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.rmsd.Rmsd.set_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>processes the given argparse.ArgumentParser for additional commandline arguments.
+This static method should be overrode for additional commandline arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>argparse.ArgumentParser</em>) – parser instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The processed parser</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>argparse.ArgumentParser</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.rmsd.Rmsd.template">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#fmojinja.cpptraj.rmsd.Rmsd.template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj.snapshot">
+<span id="fmojinja-cpptraj-snapshot-module"></span><h2>fmojinja.cpptraj.snapshot module<a class="headerlink" href="#module-fmojinja.cpptraj.snapshot" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.snapshot.Snapshot">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.snapshot.</span></span><span class="sig-name descname"><span class="pre">Snapshot</span></span><a class="headerlink" href="#fmojinja.cpptraj.snapshot.Snapshot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../source/fmojinja.html#fmojinja.mixin.CpptrajMixin" title="fmojinja.mixin.CpptrajMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">fmojinja.mixin.CpptrajMixin</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.snapshot.Snapshot.set_arguments">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">set_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.snapshot.Snapshot.set_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>processes the given argparse.ArgumentParser for additional commandline arguments.
+This static method should be overrode for additional commandline arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>argparse.ArgumentParser</em>) – parser instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The processed parser</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>argparse.ArgumentParser</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.snapshot.Snapshot.template">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#fmojinja.cpptraj.snapshot.Snapshot.template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj.test_hbond">
+<span id="fmojinja-cpptraj-test-hbond-module"></span><h2>fmojinja.cpptraj.test_hbond module<a class="headerlink" href="#module-fmojinja.cpptraj.test_hbond" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_hbond.TestHbond">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.test_hbond.</span></span><span class="sig-name descname"><span class="pre">TestHbond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_hbond.TestHbond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_hbond.TestHbond.test">
+<span class="sig-name descname"><span class="pre">test</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;fmojinja.cpptraj.hbond.Hbond</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#fmojinja.cpptraj.test_hbond.TestHbond.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_hbond.TestHbond.test_simple_1">
+<span class="sig-name descname"><span class="pre">test_simple_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_hbond.TestHbond.test_simple_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple test 1 for Hbond
+i.e. python -m fmojinja.cpptraj hbond -p test.prm -y test.crd –prefix hbond/
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj.test_reduce_frames">
+<span id="fmojinja-cpptraj-test-reduce-frames-module"></span><h2>fmojinja.cpptraj.test_reduce_frames module<a class="headerlink" href="#module-fmojinja.cpptraj.test_reduce_frames" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_reduce_frames.TestReduceFrames">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.test_reduce_frames.</span></span><span class="sig-name descname"><span class="pre">TestReduceFrames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_reduce_frames.TestReduceFrames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_reduce_frames.TestReduceFrames.test">
+<span class="sig-name descname"><span class="pre">test</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;fmojinja.cpptraj.reduce_frames.ReduceFrames</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#fmojinja.cpptraj.test_reduce_frames.TestReduceFrames.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_reduce_frames.TestReduceFrames.test_simple_1">
+<span class="sig-name descname"><span class="pre">test_simple_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_reduce_frames.TestReduceFrames.test_simple_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple test 1 for reduce_frames
+i.e. python -m fmojinja.cpptraj reduce_frames -p test.prm -y test.crd –prefix reduced/
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_reduce_frames.TestReduceFrames.test_simple_2">
+<span class="sig-name descname"><span class="pre">test_simple_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_reduce_frames.TestReduceFrames.test_simple_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj.test_rmsd">
+<span id="fmojinja-cpptraj-test-rmsd-module"></span><h2>fmojinja.cpptraj.test_rmsd module<a class="headerlink" href="#module-fmojinja.cpptraj.test_rmsd" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_rmsd.TestRmsd">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.test_rmsd.</span></span><span class="sig-name descname"><span class="pre">TestRmsd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_rmsd.TestRmsd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_rmsd.TestRmsd.test">
+<span class="sig-name descname"><span class="pre">test</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;fmojinja.cpptraj.rmsd.Rmsd</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#fmojinja.cpptraj.test_rmsd.TestRmsd.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_rmsd.TestRmsd.test_simple_1">
+<span class="sig-name descname"><span class="pre">test_simple_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_rmsd.TestRmsd.test_simple_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple test 1 for Rmsd
+i.e. python -m fmojinja.cpptraj rmsd -p test.prm -y test.crd -ml :C,CA,N :1 :2
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_rmsd.TestRmsd.test_simple_2">
+<span class="sig-name descname"><span class="pre">test_simple_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_rmsd.TestRmsd.test_simple_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple test 2 for Rmsd
+i.e. python -m fmojinja.cpptraj rmsd -reference test.ref -p test.prm -y test1.crd test2.crd -ml :C,CA,N :1 :2
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_rmsd.TestRmsd.test_simple_3">
+<span class="sig-name descname"><span class="pre">test_simple_3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_rmsd.TestRmsd.test_simple_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple test 3 for Rmsd
+i.e. python -m fmojinja.cpptraj rmsd -reference test.ref -p test.prm         -y test1.crd test2.crd -ml :C,CA,N :1 :2 –offset 10
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj.test_snapshot">
+<span id="fmojinja-cpptraj-test-snapshot-module"></span><h2>fmojinja.cpptraj.test_snapshot module<a class="headerlink" href="#module-fmojinja.cpptraj.test_snapshot" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_snapshot.TestSnapshot">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmojinja.cpptraj.test_snapshot.</span></span><span class="sig-name descname"><span class="pre">TestSnapshot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_snapshot.TestSnapshot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_snapshot.TestSnapshot.test">
+<span class="sig-name descname"><span class="pre">test</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;fmojinja.cpptraj.snapshot.Snapshot</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#fmojinja.cpptraj.test_snapshot.TestSnapshot.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_snapshot.TestSnapshot.test_simple_1">
+<span class="sig-name descname"><span class="pre">test_simple_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_snapshot.TestSnapshot.test_simple_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple test 1 for snapshot
+python -m fmojinja.cpptraj snapshot -p test.prm -y test.crd –align-mask :1-100 –mask !:NA,WAT,HOH        –prefix snapshots/
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmojinja.cpptraj.test_snapshot.TestSnapshot.test_simple_2">
+<span class="sig-name descname"><span class="pre">test_simple_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmojinja.cpptraj.test_snapshot.TestSnapshot.test_simple_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple test 2 for snapshot
+python -m fmojinja.cpptraj snapshot -p test.prm -y test1.crd test2.crd –align-mask :1-100 –mask !:NA,WAT,HOH        –prefix snapshots/ -ref ref.crd
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fmojinja.cpptraj">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fmojinja.cpptraj" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yusuke Kawashima.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

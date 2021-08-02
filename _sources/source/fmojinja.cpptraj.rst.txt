@@ -1,0 +1,86 @@
+fmojinja.cpptraj package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fmojinja.cpptraj.makefile
+   fmojinja.cpptraj.reader
+
+Submodules
+----------
+
+fmojinja.cpptraj.hbond module
+-----------------------------
+
+.. automodule:: fmojinja.cpptraj.hbond
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.reduce\_frames module
+--------------------------------------
+
+.. automodule:: fmojinja.cpptraj.reduce_frames
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.rmsd module
+----------------------------
+
+.. automodule:: fmojinja.cpptraj.rmsd
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.snapshot module
+--------------------------------
+
+.. automodule:: fmojinja.cpptraj.snapshot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.test\_hbond module
+-----------------------------------
+
+.. automodule:: fmojinja.cpptraj.test_hbond
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.test\_reduce\_frames module
+--------------------------------------------
+
+.. automodule:: fmojinja.cpptraj.test_reduce_frames
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.test\_rmsd module
+----------------------------------
+
+.. automodule:: fmojinja.cpptraj.test_rmsd
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.cpptraj.test\_snapshot module
+--------------------------------------
+
+.. automodule:: fmojinja.cpptraj.test_snapshot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fmojinja.cpptraj
+   :members:
+   :undoc-members:
+   :show-inheritance:

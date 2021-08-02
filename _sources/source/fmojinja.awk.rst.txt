@@ -1,0 +1,29 @@
+fmojinja.awk package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fmojinja.awk.makefile
+
+Submodules
+----------
+
+fmojinja.awk.pdb\_reformer module
+---------------------------------
+
+.. automodule:: fmojinja.awk.pdb_reformer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fmojinja.awk
+   :members:
+   :undoc-members:
+   :show-inheritance:

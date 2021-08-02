@@ -1,0 +1,58 @@
+fmojinja.sander package
+=======================
+
+.. automodule:: fmojinja.sander
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fmojinja.sander.makefile
+
+Submodules
+----------
+
+fmojinja.sander.dens module
+---------------------------
+
+.. automodule:: fmojinja.sander.dens
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.sander.equil module
+----------------------------
+
+.. automodule:: fmojinja.sander.equil
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.sander.heat module
+---------------------------
+
+.. automodule:: fmojinja.sander.heat
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.sander.min module
+--------------------------
+
+.. automodule:: fmojinja.sander.min
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fmojinja.sander.prod module
+---------------------------
+
+.. automodule:: fmojinja.sander.prod
+   :members:
+   :undoc-members:
+   :show-inheritance:
