@@ -7,6 +7,7 @@ SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
+BRANCH        =
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -17,14 +18,17 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)/$(BRANCH)" $(SPHINXOPTS) $(O)
 
 .PHONY: deploy
 deploy: 
 	make clean
 	git checkout gh-pages
 	git reset --hard develop
-	make html
+	make BRANCH=develop html
+	git reset --hard main
+	make BRANCH=main html
+	cp index.html _build/html
 	git add _build/html
 	git commit -m "add html"
 	git reset --hard $$(cd .. && git subtree split --prefix docs/_build/html/ gh-pages)

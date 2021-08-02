@@ -32,6 +32,7 @@ extensions = [
     "nbsphinx",
     "sphinx.ext.githubpages",
     "sphinx.ext.autodoc",
+    "sphinx_multiversion",
     "sphinx.ext.napoleon"
 ]
 
@@ -58,3 +59,9 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+
+# -- Options for sphinx-multiversion -----------------------------------------
+
+smv_tag_whitelist = r'^\d+\.\d+$'
+smv_branch_whitelist = r'^master$|^develop$'
