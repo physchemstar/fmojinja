@@ -26,8 +26,8 @@ deploy:
 	git checkout gh-pages
 	git reset --hard develop
 	make BRANCH=develop html
-	git reset --hard master
-	make BRANCH=master html
+	git reset --hard main
+	make BRANCH=main html
 	cp index.html _build/html
 	git add _build/html
 	git commit -m "add html"
