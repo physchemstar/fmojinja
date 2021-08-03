@@ -1,8 +1,8 @@
 import os
-
+from .__version__ import get_version
 
 print(os.linesep.join([
-    "[fmojinja modules]",
+    f"[fmojinja{get_version()} modules]",
     "python -m fmojinja.bare_renderer",
     "python -m fmojinja.bare_makefile",
     "python -m fmojinja.abinitmp",
