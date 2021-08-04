@@ -23,7 +23,7 @@ $(PREFIX):
 \tmkdir $(PREFIX)
 
 $(PREFIX)reformat.awk:
-\tpython -m fmojinja.awk reformat_pdb -c $(CHAIN_STARTS) > $@
+\tpython -m fmojinja.awk pdb_reformer -c $(CHAIN_STARTS) > $@
 
 define expr
 $(PREFIX)$(basename $(notdir $(1))).pdb: $(1)
