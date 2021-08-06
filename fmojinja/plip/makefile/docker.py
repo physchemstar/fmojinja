@@ -11,6 +11,7 @@ class DockerMakefile(TemplateRendererMixin):
         return """
 XML := {% for i in pdb %}{{i.replace(".pdb", ".xml")}} \\
 {% endfor %}
+DOCKER := docker
 
 .PHONY: run
 run: ${XML}
@@ -21,7 +22,7 @@ clean:
 
 %.xml: %.pdb
 \tMSYS_NO_PATHCONV=1 \
-\tdocker run --rm \\
+\t$(DOCKER) run --rm \\
 \t-v ${PWD}:/results \\
 \t-w /results \\
 \t-u $(id -u ${USER}):$(id -g ${USER}) \\
