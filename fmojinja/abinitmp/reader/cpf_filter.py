@@ -53,19 +53,19 @@ class CpfFilter:
         if m_include:
             m_include = "['" + m_include.replace(",", "']+['") + "']"
             m_include = eval(m_include)
-            m_condition &= frag_name["frag_name"].str.rstrip("0123456789").isin(m_include)
+            m_condition &= frag_name["res_name"].isin(m_include)
         if m_exclude:
             m_exclude = "['" + m_exclude.replace(",", "']+['") + "']"
             m_exclude = eval(m_exclude)
-            m_condition &= ~frag_name["frag_name"].str.rstrip("0123456789").isin(m_exclude)
+            m_condition &= ~frag_name["res_name"].isin(m_exclude)
         if n_include:
             n_include = "['" + n_include.replace(",", "']+['") + "']"
             n_include = eval(n_include)
-            n_condition &= frag_name["frag_name"].str.rstrip("0123456789").isin(n_include)
+            n_condition &= frag_name["res_name"].isin(n_include)
         if n_exclude:
             n_exclude = "['" + n_exclude.replace(",", "']+['") + "']"
             n_exclude = eval(n_exclude)
-            n_condition &= ~frag_name["frag_name"].str.rstrip("0123456789").isin(n_exclude)
+            n_condition &= ~frag_name["res_name"].isin(n_exclude)
         m = frag_name[m_condition]["frag_id"].tolist()
         n = frag_name[n_condition]["frag_id"].tolist()
 

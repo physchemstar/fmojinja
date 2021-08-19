@@ -118,6 +118,7 @@ class CpfReader(ReaderMixin):
         else:
             cpf_filter = CpfFilter(None, None)
 
+        logger.info(f"Start parsing. {path}")
         logger.info("Entering header section.")
         opt = opt_singleton.create(nrows=1, widths=[100])
         title: str = pd.read_fwf(path, **opt).iloc[0, 0]
@@ -189,7 +190,7 @@ class CpfReader(ReaderMixin):
                 .assign(frag_name=lambda d: [str(i) + str(j) for i, j in zip(d.res_name, d.res_seq)]) \
                 .assign(frag_name=lambda d: d.frag_name.astype("string"))
             frag_name = frag_name.sort_values(by=["rep_type"], ascending=False)
-            frag_name = frag_name.drop_duplicates(["frag_id"])[["frag_id", "frag_name"]]
+            frag_name = frag_name.drop_duplicates(["frag_id"])[["frag_id", "frag_name", "res_name", "res_seq"]]
             frag_name = frag_name.sort_values(by=["frag_id"]).reset_index(drop=True)
             return frag_name
 
