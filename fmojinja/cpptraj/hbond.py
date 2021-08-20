@@ -20,7 +20,7 @@ run
 
     @classmethod
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
-        p.add_argument("--prefix", default="hbond/")
+        p.add_argument("-P", "--prefix", default="hbond/")
         p.add_argument("--offset", type=int, default=1)
         p.add_argument("-d", "--dist", type=float, default=6.0, help="H bond distance (Acceptor and Donor) cutoff")
         return super(Hbond, cls).set_arguments(p)
