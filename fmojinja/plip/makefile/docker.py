@@ -27,14 +27,14 @@ clean:
 \t-w /results \\
 \t-u $(id -u ${USER}):$(id -g ${USER}) \\
 \tpharmai/plip:latest \
-\t--nohydro \\
-{{ "\t-v " if verbose }} \\
-{{ "\t-nofixfile " if verbose }} \\
-{{ "\t--breakcomposite " if breakcomposite }} \\
-{{ "\t--peptides " + " ".join(peptides) + " " if peptides }} \\
-{{ "\t--intra {}".format(intra) if intra }} \\
-{{ "\t--keepmod " if keepmod }} \\
-{{ "\t--dnareceptor " if dnareceptor }} \\
+--nohydro \
+{{ "-v " if verbose }}\
+{{ "-nofixfile " if verbose }}\
+{{ "--breakcomposite " if breakcomposite }}\
+{{ "--peptides " + " ".join(peptides) + " " if peptides }}\
+{{ "--intra {} ".format(intra) if intra }}\
+{{ "--keepmod " if keepmod }}\
+{{ "--dnareceptor " if dnareceptor }}\\
 {{ "\t--hydroph_dist_max {} ".format(hydroph_dist_max) if hydroph_dist_max }}\\
 {{ "\t--hbond_dist_max {} ".format(hbond_dist_max) if hbond_dist_max }}\\
 {{ "\t--pistack_dist_max {} ".format(pistack_dist_max) if pistack_dist_max }}\\
