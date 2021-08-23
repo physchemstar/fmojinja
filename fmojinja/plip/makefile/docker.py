@@ -32,7 +32,7 @@ clean:
 {{ "-nofixfile " if verbose }}\
 {{ "--breakcomposite " if breakcomposite }}\
 {{ "--peptides " + " ".join(peptides) + " " if peptides }}\
-{{ "--intra " if intra }}\
+{{ "--intra {}".format(intra) if intra }}\
 {{ "--keepmod " if keepmod }}\
 {{ "--dnareceptor " if dnareceptor }}\\
 {{ "\t--hydroph_dist_max {} ".format(hydroph_dist_max) if hydroph_dist_max }}\\
@@ -45,8 +45,8 @@ clean:
 \t-x \\
 \t-f $< \\
 \t-O > $@
-\tif [ ! -d 'plipfixed' ]; then mkdir plipfixed; fi
-\tmv plipfixed.*.pdb plipfixed
+\tif [ ! -d 'plipfixed' ]; then mkdir plipfixed ||:; fi
+\tmv plipfixed.*.pdb plipfixed ||:
 
 """
 
@@ -59,9 +59,9 @@ clean:
         p.add_argument("--breakcomposite", dest="breakcomposite", default=False, help="Don't combine ligand fragments with covalent bonds but treat them as single ligands for the analysis.", action="store_true")
         ligandtype = p.add_mutually_exclusive_group()  # Either peptide/inter or intra mode
         ligandtype.add_argument("--peptides", "--inter", dest="peptides", default=[], help="Allows to define one or multiple chains as peptide ligands or to detect inter-chain contacts", nargs="+")
-        ligandtype.add_argument("--intra", dest="intra", help="Allows to define one chain to analyze intra-chain contacts.")
+        ligandtype.add_argument("--intra", dest="intra", default="A", help="Allows to define one chain to analyze intra-chain contacts.")
         p.add_argument("--keepmod", dest="keepmod", default=False, help="Keep modified residues as ligands", action="store_true")
-        p.add_argument("--dnareceptor", dest="dnareceptor", default=False, help="Treat nucleic acids as part of the receptor structure (together with any present protein) instead of as a ligand.", action="store_true")
+        p.add_argument("--dnareceptor", dest="dnareceptor", default=True, help="Treat nucleic acids as part of the receptor structure (together with any present protein) instead of as a ligand.", action="store_true")
         p.add_argument("--hydroph_dist_max", default=4.0 + 5.9, help="Distance cutoff for detection of hydrophobic contacts")
 
         p.add_argument("--hbond_dist_max", default=4.1, help="Max. distance between hydrogen bond donor and acceptor (Hubbard & Haider, 2001) + 0.6 A")
