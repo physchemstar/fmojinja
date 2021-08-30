@@ -4,7 +4,7 @@ from ...mixin import ReaderMixin
 
 
 class HpiReader(ReaderMixin):
-    @staticmethod
+    @classmethod
     def pandas_read(cls, path, **kwargs) -> pd.DataFrame:
         with open(path, "r") as f:
             skiprows = 0
@@ -40,7 +40,7 @@ class HpiReader(ReaderMixin):
 
     @classmethod
     def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
-        p.add_argument("hpi", nargs="+")
+        p.add_argument("files", nargs="+")
         return p
 
 
