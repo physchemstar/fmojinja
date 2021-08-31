@@ -19,5 +19,6 @@ clear trajin{% endfor %}
     @classmethod
     def set_arguments(self, p):
         super(ReduceFrames, self).set_arguments(p)
+        p.add_argument("-P", "--prefix", default="reduced/")
         p.add_argument("--offset", default=10)
         return p
