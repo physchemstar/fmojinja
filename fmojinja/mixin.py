@@ -82,7 +82,7 @@ class ReaderMixin(SubCommand):
 
     @classmethod
     @abstractmethod
-    def pandas_read(cls, **kwargs) -> pd.DataFrame:
+    def pandas_read(cls, path, **kwargs) -> pd.DataFrame:
         return pd.DataFrame(None)
 
     @classmethod

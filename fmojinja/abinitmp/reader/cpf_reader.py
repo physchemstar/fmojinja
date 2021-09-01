@@ -2,88 +2,13 @@ from __future__ import annotations
 import pandas as pd
 import numpy as np
 import math
-import re
 from logging import getLogger
 from ...mixin import ReaderMixin
+from .cpf_filter import CpfFilter
 from typing import Type, Dict, Any, List, Optional
 from argparse import ArgumentParser
 
 logger = getLogger(__name__)
-
-
-class CpfFilter:
-
-    def __init__(self, m, n) -> None:
-        self.m = m
-        self.n = n
-        logger.debug(self.m)
-        logger.debug(self.n)
-        logger.info(
-            f"CpfFilter is generated. "
-            f"{len(self.m) if self.m is not None else 'None'} x {len(self.n) if self.m is not None else 'None'}")
-
-    def complete_by_all_frag_id(self, n_frag: int) -> None:
-        if self.m is None:
-            self.m = [i + 1 for i in range(n_frag)]
-            logger.info(f"CpfFilter is completed. m: {len(self.m)}.")
-        if self.n is None:
-            self.n = [i + 1 for i in range(n_frag)]
-            logger.info(f"CpfFilter is completed. n: {len(self.n)}.")
-
-    @classmethod
-    def by_frag_id_repr(cls,
-                        m_frag_id_repr: str,
-                        n_frag_id_repr: str) -> "CpfFilter":
-        m = None
-        n = None
-        if m_frag_id_repr:
-            m = re.sub(r"([0-9]+)-([0-9]+)", r"i + \1 for i in range(\2 - \1 + 1)", m_frag_id_repr)
-            m = "[" + m.replace(",", "]+[") + "]"
-            m = eval(m)
-        if n_frag_id_repr:
-            n = re.sub(r"([0-9]+)-([0-9]+)", r"i + \1 for i in range(\2 - \1 + 1)", n_frag_id_repr)
-            n = "[" + n.replace(",", "]+[") + "]"
-            n = eval(n)
-        return cls(m, n)
-
-    @classmethod
-    def by_res_name(cls,
-                    frag_name: pd.DataFrame,
-                    m_include: str = None,
-                    m_exclude: str = None,
-                    n_include: str = None,
-                    n_exclude: str = None) -> "CpfFilter":
-        m_condition = np.array([True for _ in frag_name["frag_name"]])
-        n_condition = np.array([True for _ in frag_name["frag_name"]])
-        if m_include:
-            m_include = "['" + m_include.replace(",", "']+['") + "']"
-            m_include = eval(m_include)
-            m_condition &= frag_name["frag_name"].str.rstrip("0123456789").isin(m_include)
-        if m_exclude:
-            m_exclude = "['" + m_exclude.replace(",", "']+['") + "']"
-            m_exclude = eval(m_exclude)
-            m_condition &= ~frag_name["frag_name"].str.rstrip("0123456789").isin(m_exclude)
-        if n_include:
-            n_include = "['" + n_include.replace(",", "']+['") + "']"
-            n_include = eval(n_include)
-            n_condition &= frag_name["frag_name"].str.rstrip("0123456789").isin(n_include)
-        if n_exclude:
-            n_exclude = "['" + n_exclude.replace(",", "']+['") + "']"
-            n_exclude = eval(n_exclude)
-            n_condition &= ~frag_name["frag_name"].str.rstrip("0123456789").isin(n_exclude)
-        m = frag_name[m_condition]["frag_id"].tolist()
-        n = frag_name[n_condition]["frag_id"].tolist()
-
-        return cls(m, n)
-
-    def filter(self, df, *, i_name="i", j_name="j") -> pd.DataFrame:
-        cond_1 = df[i_name].isin(self.m) & df[j_name].isin(self.n)
-        cond_2 = df[i_name].isin(self.n) & df[j_name].isin(self.m)
-        result = df[cond_1 | cond_2] \
-            .assign(m=lambda d: [i if i in self.m else j for i, j in zip(d[i_name], d[j_name])]) \
-            .assign(n=lambda d: [j if i in self.m else i for i, j in zip(d[i_name], d[j_name])]) \
-            .assign(m=lambda d: d.m.astype(int), n=lambda d: d.n.astype(int))
-        return result
 
 
 class CpfReader(ReaderMixin):
@@ -181,7 +106,7 @@ class CpfReader(ReaderMixin):
         """
         opt_singleton = CpfReader.get_opt_singleton()
         hartree2kcalmol = 627.51
-        what_choice = ["atom_info", "frag_name", "dimer_energy"]
+        what_choice = ["atom_info", "frag_name", "monomer_energy", "dimer_energy"]
         if what not in what_choice:
             raise ValueError(f"set what from {what_choice}.")
         mem_limit = CpfReader.format_mem_limit(mem_limit)
@@ -193,40 +118,66 @@ class CpfReader(ReaderMixin):
         else:
             cpf_filter = CpfFilter(None, None)
 
+        logger.info(f"Start parsing. {path}")
         logger.info("Entering header section.")
         opt = opt_singleton.create(nrows=1, widths=[100])
-        title = pd.read_fwf(path, **opt)
-        title = title.iloc[0, 0]
-        assert ("CPF" in title)
-        assert ("Open1.0" in title)
-        assert ("rev23" in title)
-        opt = opt_singleton.create(nrows=1, widths=[100])
+        title: str = pd.read_fwf(path, **opt).iloc[0, 0]
+
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(nrows=1, widths=[100])
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(nrows=1, widths=[100])
+
+        # Necessary for parsing
         n_atom, n_frag = [int(i) for i in pd.read_fwf(path, **opt).iloc[0, 0].split()]
         n_dimer = int(n_frag * (n_frag - 1) / 2)
-        n_wrap = -(-n_frag // 10)
-        opt = opt_singleton.create(nrows=1, widths=[100])
-        header_atom = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
-        opt = opt_singleton.create(nrows=1, widths=[100])
-        header_monomer = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
-        opt = opt_singleton.create(nrows=1, widths=[100])
-        header_monomer_energy = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
-        opt = opt_singleton.create(nrows=1, widths=[100])
-        header_dimer_energy = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
+
+        if title.startswith("CPF Open1.0 rev10"):
+            n_wrap = -(-n_frag // 16)
+        if title.startswith("CPF Open1.0 rev23"):
+            n_wrap = -(-n_frag // 10)
+
+        if title.startswith("CPF Open1.0 rev10"):
+            pass
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(nrows=1, widths=[100])
+            header_atom = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
+            opt = opt_singleton.create(nrows=1, widths=[100])
+            header_monomer = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
+            opt = opt_singleton.create(nrows=1, widths=[100])
+            header_monomer_energy = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
+            opt = opt_singleton.create(nrows=1, widths=[100])
+            header_dimer_energy = pd.read_fwf(path, **opt).iloc[0, 0].replace("-", "_").lower().split()
 
         if cpf_filter is None:
             cpf_filter = CpfFilter(None, None)
         cpf_filter.complete_by_all_frag_id(n_frag)
 
         logger.info("Entering atom info.")
-        opt = opt_singleton.create(
-            widths=[10, 2, 6, 4, 11, 11, 21, 20, 20, 4, 2] + [20] * len(header_atom),
-            names=["id", "atom", "atom_type",
-                   "res_name", "res_seq", "frag_id",
-                   "x", "y", "z",
-                   "chain_name", "chain_id"] + header_atom,
-            nrows=n_atom,
-            dtype_add=dict((key, "float") for key in header_atom),
-        )
+
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(
+                widths=[5, 2, 6, 4, 5, 5, 13, 12, 12, 12, 12, 12, 12, 12, 2],
+                names=["id", "atom", "atom_type",
+                       "res_name", "res_seq", "frag_id",
+                       "x", "y", "z",
+                       "MUL-HF", "MUL-MP2",
+                       "NPA-HF", "NPA-MP2",
+                       "ESP-HF", "ESP-MP2"],
+                nrows=n_atom
+            )
+
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(
+                widths=[10, 2, 6, 4, 11, 11, 21, 20, 20, 4, 2] + [20] * len(header_atom),
+                names=["id", "atom", "atom_type",
+                       "res_name", "res_seq", "frag_id",
+                       "x", "y", "z",
+                       "chain_name", "chain_id"] + header_atom,
+                nrows=n_atom,
+                dtype_add=dict((key, "float") for key in header_atom),
+            )
+
         logger.debug(opt)
         atom_info = pd.read_fwf(path, **opt)
         if what == "atom_info":
@@ -239,38 +190,59 @@ class CpfReader(ReaderMixin):
                 .assign(frag_name=lambda d: [str(i) + str(j) for i, j in zip(d.res_name, d.res_seq)]) \
                 .assign(frag_name=lambda d: d.frag_name.astype("string"))
             frag_name = frag_name.sort_values(by=["rep_type"], ascending=False)
-            frag_name = frag_name.drop_duplicates(["frag_id"])[["frag_id", "frag_name"]]
+            frag_name = frag_name.drop_duplicates(["frag_id"])[["frag_id", "frag_name", "res_name", "res_seq"]]
             frag_name = frag_name.sort_values(by=["frag_id"]).reset_index(drop=True)
             return frag_name
 
         logger.info("Entering n_atoms.")
-        opt = opt_singleton.create(
-            widths=[8] * 10,
-            nrows=n_wrap,
-        )
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(
+                widths=[5] * 16,
+                nrows=n_wrap,
+            )
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(
+                widths=[8] * 10,
+                nrows=n_wrap,
+            )
         logger.debug(opt)
+
         if what == "n_atoms":
             n_atoms = pd.read_fwf(path, **opt).to_numpy().ravel()
             n_atoms = n_atoms[~np.isnan(n_atoms)].astype(int)
             return n_atoms
 
         logger.info("Entering n_bonds.")
-        opt = opt_singleton.create(
-            widths=[8] * 10,
-            nrows=n_wrap,
-        )
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(
+                widths=[5] * 16,
+                nrows=n_wrap,
+            )
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(
+                widths=[8] * 10,
+                nrows=n_wrap,
+            )
         logger.debug(opt)
+
         n_bonds = pd.read_fwf(path, **opt).to_numpy().ravel()
         n_bonds = n_bonds[~np.isnan(n_bonds)].astype(int)
         if what == "n_bonds":
             return n_bonds
 
         logger.info("Entering bda/baa.")
-        opt = opt_singleton.create(
-            widths=[12, 12, 24],
-            names=["bda", "baa", "bond_type"],
-            nrows=int(np.sum(n_bonds)),
-        )
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(
+                widths=[5, 5, 5],
+                names=["bda", "baa", "bond_type"],
+                nrows=int(np.sum(n_bonds)),
+            )
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(
+                widths=[10, 10, 10],
+                names=["bda", "baa", "bond_type"],
+                nrows=int(np.sum(n_bonds)),
+            )
         logger.debug(opt)
         if what == "bda_baa":
             bda_baa = pd.read_fwf(path, **opt)
@@ -278,24 +250,38 @@ class CpfReader(ReaderMixin):
             return bda_baa
 
         logger.info("Entering distance.")
-        opt = opt_singleton.create(
-            widths=[12, 12, 24],
-            names=["i", "j", "dist"],
-            nrows=n_dimer,
-        )
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(
+                widths=[12, 12, 24],
+                names=["i", "j", "dist"],
+                nrows=n_dimer,
+            )
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(
+                widths=[12, 12, 24],
+                names=["i", "j", "dist"],
+                nrows=n_dimer,
+            )
         logger.debug(opt)
         if what == "dist":
             dist = pd.read_fwf(path, **opt)
             return dist
 
         logger.info("Entering monomer info.")
-        opt = opt_singleton.create(
-            # widths=[10] + [24] * len(header_monomer),
-            widths=[10] + [24] + [25] * (len(header_monomer) - 1),  # cpf bug?
-            names=["frag_id"] + header_monomer,
-            nrows=n_frag,
-            dtype_add=dict((key, "float") for key in header_monomer),
-        )
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(
+                widths=[24] * 6,
+                names=["DPM-HF-X", "DPM-HF-Y", "DPM-HF-Z", "DPM-MP2-X", "DPM-MP2-Y", "DPM-MP2-Z"],
+                nrows=n_frag,
+            )
+        if title.startswith("CPF Open1.0 rev23"):
+            opt = opt_singleton.create(
+                # widths=[10] + [24] * len(header_monomer),
+                widths=[10] + [24] + [25] * (len(header_monomer) - 1),  # cpf bug?
+                names=["frag_id"] + header_monomer,
+                nrows=n_frag,
+                dtype_add=dict((key, "float") for key in header_monomer),
+            )
         logger.debug(opt)
         if what == "monomer_info":
             monomer_info = pd.read_fwf(path, **opt)
@@ -304,35 +290,66 @@ class CpfReader(ReaderMixin):
         logger.info("Entering method info.")
         opt_singleton.proceed_position(7)
 
-        logger.info("Entering monomer energy.")
-        opt_singleton.proceed_position(1)
-        opt = opt_singleton.create(
-            widths=[10] + [24] * len(header_monomer_energy),
-            names=["frag_id"] + header_monomer_energy,
-            nrows=n_frag,
-            dtype_add=dict((key, "float") for key in header_monomer_energy),
-        )
+        logger.info("Entering monomer info.")
+        if title.startswith("CPF Open1.0 rev10"):
+            opt = opt_singleton.create(
+                widths=[24] * 4 + [12] * 2,
+                names=["NR", "EL", "MP2", "MP3", "N_ORB_MONOMER", "N_ORB_DIMER"],
+                nrows=n_frag,
+            )
+        if title.startswith("CPF Open1.0 rev23"):
+            opt_singleton.proceed_position(1)
+            opt = opt_singleton.create(
+                widths=[10] + [24] * len(header_monomer_energy),
+                names=["frag_id"] + header_monomer_energy,
+                nrows=n_frag,
+                dtype_add=dict((key, "float") for key in header_monomer_energy),
+            )
         logger.debug(opt)
         if what == "monomer_energy":
-            monomer_energy = pd.read_fwf(path, **opt)
+            if title.startswith("CPF Open1.0 rev10"):
+                monomer_energy = pd.read_fwf(path, **opt)
+                monomer_energy = monomer_energy.assign(frag_id=lambda d: [i + 1 for i in range(len(d.MP2))])
+            if title.startswith("CPF Open1.0 rev23"):
+                monomer_energy = pd.read_fwf(path, **opt)
             return monomer_energy
 
         logger.info("Entering dimer energy.")
-        opt_singleton.proceed_position(1)
-        opt = opt_singleton.create(
-            widths=[10, 10] + [24] * len(header_dimer_energy),
-            names=["i", "j"] + header_dimer_energy,
-            nrows=n_dimer,
-            dtype_add=dict((key, "float") for key in header_dimer_energy),
-        )
+        if title.startswith("CPF Open1.0 rev10"):
+            header_dimer_energy=["NR", "HF", "ES",
+                                 "MP2", "PR-MP2", "SCS-MP2(Grimme)",
+                                 "MP3", "PR-MP3", "SCS-MP3(MP2.5)",
+                                 "HF-BSSE", "MP2-BSSE", "SCS-MP2(Grimme)-BSSE", "SCS-MP3(MP2.5)-BSSE",
+                                 "SC-ES", "SC-NP", "EX", "CT", "DQ"
+                                 ]
+            opt = opt_singleton.create(
+                widths=[24] * 18,
+                names=header_dimer_energy,
+                nrows=n_dimer,
+                dtype_add=dict((key, "float") for key in header_dimer_energy),
+            )
+        if title.startswith("CPF Open1.0 rev23"):
+            opt_singleton.proceed_position(1)
+            opt = opt_singleton.create(
+                widths=[10, 10] + [24] * len(header_dimer_energy),
+                names=["i", "j"] + header_dimer_energy,
+                nrows=n_dimer,
+                dtype_add=dict((key, "float") for key in header_dimer_energy),
+            )
         logger.debug(opt)
-        estimated_df_row_mem = len(opt["widths"]) * 8  # df.values[0].nbytes
-        if estimated_df_row_mem * len(cpf_filter.m) * len(cpf_filter.n) > mem_limit:
-            raise MemoryError(f"Memory usage will exceed to mem_limit:{mem_limit}. Consider to set cpf_filter narrower.")
-        chunksize = math.floor((mem_limit / estimated_df_row_mem) * chunk_ratio)
-        logger.debug(f"read lines with chunksize: {chunksize}.")
-        reader = pd.read_fwf(path, chunksize=chunksize, **opt)
-        dimer_energy = pd.concat((cpf_filter.filter(d) for d in reader), ignore_index=True)
+        if title.startswith("CPF Open1.0 rev10"):
+            index = sum([[(i, j) for i in range(1, n_frag + 1) if i < j] for j in range(1, n_frag + 1)], [])
+            dimer_energy = pd.read_fwf(path, **opt)
+            dimer_energy = dimer_energy.assign(i=[i for i, _ in index], j=[j for _, j in index])
+            dimer_energy = cpf_filter.filter(dimer_energy)
+        if title.startswith("CPF Open1.0 rev23"):
+            estimated_df_row_mem = len(opt["widths"]) * 8  # df.values[0].nbytes
+            if estimated_df_row_mem * len(cpf_filter.m) * len(cpf_filter.n) > mem_limit:
+                raise MemoryError(f"Memory usage will exceed to mem_limit:{mem_limit}. Consider to set cpf_filter narrower.")
+            chunksize = math.floor((mem_limit / estimated_df_row_mem) * chunk_ratio)
+            logger.debug(f"read lines with chunksize: {chunksize}.")
+            reader = pd.read_fwf(path, chunksize=chunksize, **opt)
+            dimer_energy = pd.concat((cpf_filter.filter(d) for d in reader), ignore_index=True)
         energy_columns = dimer_energy.columns.difference(["i", "j", "m", "n"])
         dimer_energy[energy_columns] = dimer_energy[energy_columns] * hartree2kcalmol
         if what == "dimer_energy":
@@ -355,7 +372,7 @@ class CpfReader(ReaderMixin):
                        help="frag_id e.g. '1,2,3', '1-200'")
         p.add_argument("-ni", "--n-include")
         p.add_argument("-nx", "--n-exclude")
-        p.add_argument("-wh", "--what", choices=["atom_info", "frag_name", "dimer_energy"], default="frag_name")
+        p.add_argument("-wh", "--what", choices=["atom_info", "frag_name", "monomer_energy", "dimer_energy"], default="frag_name")
         p.add_argument("-v", "--verbose", action="store_true")
         p.add_argument("--mem-limit", default="1000MB")
         p.add_argument("--chunk-ratio", type=float, default=0.005)

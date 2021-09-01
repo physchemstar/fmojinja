@@ -59,7 +59,7 @@ $(PREFIX).$(call wrap_num_w_tag, $(1)).restrt: $(PREFIX).$(call wrap_num_w_tag, 
 \t-c $(PREFIX).$(call wrap_num_w_tag, $(shell expr $(1) - $(2))).restrt \\
 \t-ref $(PREFIX).a.0.restrt \\
 \t-r $(PREFIX).$(call wrap_num_w_tag, $(1)).restrt \\
-\t-x $(PREFIX)$(1).mdcrd \\
+\t-x $(PREFIX).$(call wrap_num_w_tag, $(1)).mdcrd \\
 \t-inf $(PREFIX).$(call wrap_num_w_tag, $(1)).mdinfo 
 endef
 $(foreach i, $(PROD_SEQ), $(eval $(call sander_expr, $(i), $(PS_OFFSET))))
