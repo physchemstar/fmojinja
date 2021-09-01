@@ -32,6 +32,7 @@ RNA   U    1  1  1  SIX   6   N1   C2   N3   C4   C5   C6
 
     class Additive:
         vpi = {
+            2: "OLE",
             3: "OLE",
             5: "FIV",
             6: "SIX"
