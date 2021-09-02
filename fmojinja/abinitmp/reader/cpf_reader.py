@@ -190,6 +190,7 @@ class CpfReader(ReaderMixin):
                 .assign(frag_name=lambda d: d.frag_name.astype("string"))
             frag_name = frag_name.sort_values(by=["rep_type"], ascending=False)
             frag_name = frag_name.drop_duplicates(["frag_id"])[["frag_id", "frag_name", "res_name", "res_seq"]]
+            frag_name = frag_name[frag_name["frag_id"].isin(cpf_filter.m + cpf_filter.n)]
             frag_name = frag_name.sort_values(by=["frag_id"]).reset_index(drop=True)
             return frag_name
 
