@@ -1,7 +1,5 @@
 name: pyinstaller
 on:
-  pull_request:
-    branches: [main, develop]
   push:
     tags:
       - "v*"
