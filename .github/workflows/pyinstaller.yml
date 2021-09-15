@@ -1,8 +1,5 @@
-name: push
+name: pyinstaller
 on:
-  push:
-    tags:
-      - "v*"
   workflow_dispatch:
 
 jobs:
