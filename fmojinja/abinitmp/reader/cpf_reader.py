@@ -185,11 +185,13 @@ class CpfReader(ReaderMixin):
 
         if what == "frag_name":
             frag_name = atom_info \
-                .assign(rep_type=lambda d: d.atom_type.isin(["CA", "C1"])) \
+                .groupby(["frag_id", "res_name", "res_seq"]) \
+                .agg({"res_seq": "count"}).rename(columns={"res_seq": "count"}).reset_index() \
                 .assign(frag_name=lambda d: [str(i) + str(j) for i, j in zip(d.res_name, d.res_seq)]) \
                 .assign(frag_name=lambda d: d.frag_name.astype("string"))
-            frag_name = frag_name.sort_values(by=["rep_type"], ascending=False)
+            frag_name = frag_name.sort_values(by=["count"], ascending=False)
             frag_name = frag_name.drop_duplicates(["frag_id"])[["frag_id", "frag_name", "res_name", "res_seq"]]
+            frag_name = frag_name[frag_name["frag_id"].isin(cpf_filter.m + cpf_filter.n)]
             frag_name = frag_name.sort_values(by=["frag_id"]).reset_index(drop=True)
             return frag_name
 

@@ -1,0 +1,150 @@
+name: pyinstaller
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout commit
+        uses: actions/checkout@master
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@master
+        with: { python-version: 3.8 }
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip PyInstaller
+      
+      - name: Install fmojinja
+        run: python -m pip install .
+
+      - name: build
+        run: pyinstaller -F binary.py
+  
+      - name: upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: fmojinja-windows
+          path: dist/binary.exe
+
+  macOS-build:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout commit
+        uses: actions/checkout@master
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@master
+        with: { python-version: 3.8 }
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip PyInstaller
+      
+      - name: Install fmojinja
+        run: python -m pip install .
+        
+      - name: build
+        run: pyinstaller -F binary.py
+
+      - name: upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: fmojinja-macos
+          path: dist/binary
+
+  ubuntu-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout commit
+        uses: actions/checkout@master
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@master
+        with: { python-version: 3.8 }
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip PyInstaller
+      
+      - name: Install fmojinja
+        run: python -m pip install .
+        
+      - name: build
+        run: pyinstaller -F binary.py
+
+      - name: upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: fmojinja-ubuntu
+          path: dist/binary
+
+  release:
+    needs: [ubuntu-build, macOS-build, windows-build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Linux
+        uses: actions/download-artifact@v1
+        with:
+          name: fmojinja-ubuntu
+
+      - name: Download Mac
+        uses: actions/download-artifact@v1
+        with:
+          name: fmojinja-macos
+
+      - name: Download Windows
+        uses: actions/download-artifact@v1
+        with:
+          name: fmojinja-windows
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Zip
+        run: |
+          tar -C fmojinja-macos -pczvf fmojinja-macos.tar.gz fmojinja
+          tar -C fmojinja-ubuntu -pczvf fmojinja-ubuntu.tar.gz fmojinja
+          zip --junk-paths fmojinja-windows ./fmojinja-windows/fmojinja.exe
+          
+      - name: Append Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./fmojinja-macos.tar.gz
+          asset_name: fmojinja-macos.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Append Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./fmojinja-linux.tar.gz
+          asset_name: fmojinja-linux.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Append Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./fmojinja-windows.zip
+          asset_name: fmojinja-windows.zip
+          asset_content_type: application/zip
