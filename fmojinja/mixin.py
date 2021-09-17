@@ -75,7 +75,20 @@ class TemplateRendererMixin(SubCommand):
 
     @classmethod
     def render(cls, **kwargs) -> str:
+        if kwargs["print_template"]:
+            return cls.template()
         return Environment().from_string(dedent(cls.template())).render(**kwargs)
+
+    @classmethod
+    def set_arguments(cls, p: ArgumentParser) -> ArgumentParser:
+        p.add_argument("--print-template", action="store_true",
+                       help="""
+                       print the implemented jinja2 template. 
+                       Unfortunately, required arguments should be filled 
+                       to use this function because of the implementation.
+                       """
+                       )
+        return p
 
 
 class ReaderMixin(SubCommand):
