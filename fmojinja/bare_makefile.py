@@ -21,7 +21,7 @@ run: $({{ lx_val }})
 
 .PHONY: clean
 clean:
-\t rm *{{ lx_val }}
+\t rm *$({{ lx_val }})
 
 """
 
