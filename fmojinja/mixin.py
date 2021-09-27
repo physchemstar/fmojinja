@@ -75,8 +75,11 @@ class TemplateRendererMixin(SubCommand):
 
     @classmethod
     def render(cls, **kwargs) -> str:
-        if kwargs["print_template"]:
-            return cls.template()
+        try:
+            if kwargs["print_template"]:
+                return cls.template()
+        except:
+            pass
         return Environment().from_string(dedent(cls.template())).render(**kwargs)
 
     @classmethod
