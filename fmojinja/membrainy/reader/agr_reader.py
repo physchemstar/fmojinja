@@ -16,6 +16,10 @@ class AgrReaderMixin(ReaderMixin):
                     title = line[11:].strip().strip("\" ")
                 if line.startswith("@    subtitle"):
                     subtitle = line[13:].strip().strip("\" ")
+                if line.startswith("@    xaxis  label"):
+                    xaxis_label = line[18:].strip().strip("\" ")
+                if line.startswith("@    yaxis  label"):
+                    yaxis_label = line[18:].strip().strip("\" ")
                 if line.startswith("@target"):
                     target = line.split()[1]
                     break
@@ -28,8 +32,10 @@ class AgrReaderMixin(ReaderMixin):
                 record.append(title)
                 record.append(subtitle)
                 record.append(target)
+                record.append(xaxis_label)
+                record.append(yaxis_label)
                 data.append(record)
-        data = pd.DataFrame(data, columns=["x", "y", "title", "subtitle", "target"])
+        data = pd.DataFrame(data, columns=["x", "y", "title", "subtitle", "target", "xaxis_label", "yaxis_label"])
         return data
 
     @classmethod
