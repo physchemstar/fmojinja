@@ -13,6 +13,7 @@ print(os.linesep.join([
     "python -m fmojinja.cpptraj",
     "python -m fmojinja.cpptraj.makefile",
     "python -m fmojinja.cpptraj.reader",
+    "python -m fmojinja.membrainy.reader",
     "python -m fmojinja.moebatch",
     "python -m fmojinja.plip.makefile",
     "python -m fmojinja.plip.reader",
