@@ -20,6 +20,7 @@ print(os.linesep.join([
     "python -m fmojinja.sander",
     "python -m fmojinja.tleap",
     "python -m fmojinja.gmx",
+    "python -m fmojinja.gmx.reader",
     "python -m fmojinja.sander.makefile"
 ])
 )
